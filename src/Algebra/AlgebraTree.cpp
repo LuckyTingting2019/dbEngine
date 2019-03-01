@@ -257,7 +257,7 @@ void algebra::AlgebraTree::findGroupBy(queryparser::QueryParser::Select_stmtCont
     }
     std::vector<queryparser::QueryParser::ExprContext *> exprs = tree -> group_by() -> columns() -> expr();
     for (auto x : exprs) {
-        groupBy_ptr -> addColumn(findColumn(x -> column()));
+        groupBy_ptr -> addColumn(findExpr(x));
     }
     /*
     for (auto x : proj_ptr -> getColumns()) {

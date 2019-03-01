@@ -7,21 +7,28 @@
 //
 
 #include "GroupBy.h"
-const std::vector<std::shared_ptr<algebra::Column>>& algebra::GroupBy::getColumns() const {
+#include "NumericBinaryExpr.h"
+#include <typeinfo>
+const std::vector<std::shared_ptr<algebra::Expression>>& algebra::GroupBy::getColumns() const {
     return this -> columns;
 }
 const std::vector<std::shared_ptr<algebra::Function>>& algebra::GroupBy::getFuncs() const {
     return this -> funcs;
 }
-void algebra::GroupBy::setColumns(const std::vector<std::shared_ptr<algebra::Column>>& columns) {
+void algebra::GroupBy::setColumns(const std::vector<std::shared_ptr<algebra::Expression>>& columns) {
     this -> columns = columns;
 }
 void algebra::GroupBy::setFuncs(const std::vector<std::shared_ptr<algebra::Function>>& funcs) {
     this -> funcs = funcs;
 }
 
-void algebra::GroupBy::addColumn(const std::shared_ptr<algebra::Column>& col) {
-    this -> columns.push_back(col);
+void algebra::GroupBy::addColumn(const std::shared_ptr<algebra::Expression>& col) {
+    if (typeid(*col).name() == typeid(algebra::Column).name() || typeid(*col).name() == typeid(algebra::NumericBinaryExpr).name()) {
+        this -> columns.push_back(col);
+    } else {
+        throw "Unsupported group by column type: " + *(typeid(*col).name());
+    }
+    
 }
 
 void algebra::GroupBy::addFunc(const std::shared_ptr<algebra::Function>& func) {

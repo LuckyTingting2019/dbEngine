@@ -45,7 +45,7 @@ const std::unordered_map<std::string, std::string>& algebra::Row::getFields() co
     return fields;
 }
 
-bool algebra::Row::containsField(const std::string& columnName) {
+bool algebra::Row::containsField(const std::string& columnName) const {
     return fields.count(columnName) > 0;
 }
 

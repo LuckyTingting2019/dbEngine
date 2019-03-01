@@ -27,7 +27,7 @@ namespace algebra {
         std::string get(const std::string& columnName) const;
         const std::string& getTableName() const;
         const std::unordered_map<std::string, std::string>& getFields() const;
-        bool containsField(const std::string& columnName);
+        bool containsField(const std::string& columnName) const;
         void print();
         
     private:

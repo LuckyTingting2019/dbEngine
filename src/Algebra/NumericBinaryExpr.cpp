@@ -12,6 +12,9 @@ std::string algebra::NumericBinaryExpr::getType() {
 }
 
 std::string algebra::NumericBinaryExpr::findValue(const algebra::Row& row) {
+    if (row.containsField(findName())) {
+        return row.get(findName());
+    }
     std::string leftV = left -> findValue(row);
     std::string rightV = right -> findValue(row);
     std::string type = findType();
