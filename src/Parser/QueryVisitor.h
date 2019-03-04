@@ -24,6 +24,8 @@ public:
 
     virtual antlrcpp::Any visitColumns(QueryParser::ColumnsContext *context) = 0;
 
+    virtual antlrcpp::Any visitColumn_alias(QueryParser::Column_aliasContext *context) = 0;
+
     virtual antlrcpp::Any visitColumn(QueryParser::ColumnContext *context) = 0;
 
     virtual antlrcpp::Any visitRelation(QueryParser::RelationContext *context) = 0;
@@ -35,6 +37,8 @@ public:
     virtual antlrcpp::Any visitJoin_type(QueryParser::Join_typeContext *context) = 0;
 
     virtual antlrcpp::Any visitTable(QueryParser::TableContext *context) = 0;
+
+    virtual antlrcpp::Any visitAlias(QueryParser::AliasContext *context) = 0;
 
     virtual antlrcpp::Any visitExpr(QueryParser::ExprContext *context) = 0;
 

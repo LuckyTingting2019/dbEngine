@@ -23,13 +23,16 @@ namespace algebra {
         const std::string& getName () const ;
         const std::unordered_map<std::string, std::string>& getColumnTypes() const;
         const std::vector<algebra::Column>& getColumns() const;
+        const std::string& getAlias () const ;
         
         void setName(const std::string& name);
         void setColumnTypes(const std::unordered_map<std::string, std::string>& columnTypes);
         void setColumns(const std::vector<algebra::Column>& columns);
+        void setAlias(const std::string& alias);
         
     protected:
         std::string name;
+        std::string alias;
         std::unordered_map<std::string, std::string> columnTypes;
         std::vector<algebra::Column> columns;
         

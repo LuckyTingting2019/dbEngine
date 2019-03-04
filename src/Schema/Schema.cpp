@@ -12,7 +12,9 @@
 bool Schema::isNaturalJoin = false;
 std::unordered_map<std::string, std::unordered_map<std::string, std::string>> Schema::tables_colType;
 std::unordered_map<std::string, std::vector<algebra::Column>> Schema::tables_columns;
+std::unordered_map<std::string, std::string> Schema::tables_alias;
 std::vector<std::string> Schema::tables;
+std::unordered_map<std::string, std::shared_ptr<algebra::Expression>> Schema::expr_alias;
 
 void Schema::addTable(const algebra::Table &table) {
     //setup tables
@@ -30,6 +32,11 @@ void Schema::addTable(const algebra::Table &table) {
         columns.push_back(x);
     }
     Schema::tables_columns[table.getName()] = columns;
+    
+    //setup alias
+    if (table.getAlias() != "") {
+        Schema::tables_alias[table.getAlias()] = table.getName();
+    }
 }
 
 bool Schema::getIsNaturalJoin() {
@@ -41,6 +48,44 @@ const std::unordered_map<std::string, std::vector<algebra::Column>>& Schema::get
 }
 const std::unordered_map<std::string, std::unordered_map<std::string, std::string>>& Schema::getColType() {
     return Schema::tables_colType;
+}
+
+const std::unordered_map<std::string, std::string>& Schema::getTablesAlias() {
+    return Schema::tables_alias;
+}
+
+bool Schema::isNameTableAlias(const std::string& name) {
+    return Schema::tables_alias.find(name) != Schema::tables_alias.end();
+}
+
+std::string Schema::getTableNameFromAlias(const std::string& alias) {
+    return Schema::tables_alias.at(alias);
+}
+
+bool Schema::addTableAlias(const std::string& alias, const std::string& tableName) {
+    if (isNameTableAlias(alias)) {
+        return false;
+    } else {
+        Schema::tables_alias[alias] = tableName;
+        return true;
+    }
+}
+
+bool Schema::isNameExprAlias(const std::string& name) {
+    return Schema::expr_alias.find(name) != Schema::expr_alias.end();
+}
+
+std::shared_ptr<algebra::Expression> Schema::getExprFromAlias(const std::string& alias) {
+    return Schema::expr_alias.at(alias);
+}
+
+bool Schema::addExprAlias(const std::string& alias, const std::shared_ptr<algebra::Expression>& expr) {
+    if (isNameExprAlias(alias)) {
+        return false;
+    } else {
+        Schema::expr_alias[alias] = expr;
+        return true;
+    }
 }
 
 void Schema::setIsNaturalJoin(bool isNaturalJoin) {

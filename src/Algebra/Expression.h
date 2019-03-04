@@ -22,7 +22,13 @@ namespace algebra {
         virtual std::string findValue(const algebra::Row& row) = 0;
         virtual std::string findType() = 0;
         virtual std::string findName() = 0;
+        
+        void setAlias(const std::string& alias);
+        const std::string& getAlias() const;
 
+    protected:
+        std::string alias;
+        
     private:
         const std::string type = "Expression";
     };

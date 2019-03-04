@@ -13,7 +13,13 @@ std::string algebra::Column::getType() {
 }
 
 std::string algebra::Column::findValue(const algebra::Row& row) {
-    return row.get(findName());
+    if (row.containsField(findName())) {
+        return row.get(findName());
+    } else if (row.containsField(getAlias())) {
+        return row.get(getAlias());
+    } else {
+        throw "Expression with name: " + findName() + " and alias: " + getAlias() + " is not in the row.";
+    }
 }
 std::string algebra::Column::findType() {
     return this -> fieldType;

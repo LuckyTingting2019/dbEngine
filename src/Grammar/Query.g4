@@ -2,14 +2,16 @@ grammar Query;
 
 select_stmt : SELECT columns FROM relation ( WHERE expr )? (group_by)? ';';
 
-columns : expr ( ',' expr )* ;
+columns : column_alias ( ',' column_alias ) *;
+
+column_alias : expr ( AS alias )?;
 
 column : '*' | table '.' '*' | Name | table '.' Name ;
 
 relation
- : table
- | relation join_operator relation (join_condition) ?
- | '(' select_stmt ')'
+ : table (AS alias)?
+ | relation join_operator relation (join_condition)? (AS alias)?
+ | '(' select_stmt ')' (AS alias)?
  ;
 
 join_operator : join_type JOIN ;
@@ -19,6 +21,8 @@ join_condition : ON expr;
 join_type : INNER | LEFT | RIGHT | NATURAL ;
 
 table : Name ;
+
+alias: Name;
 
 expr
 : literal_value
@@ -79,6 +83,7 @@ AVG : 'AVG';
 COUNT : 'COUNT';
 MIN : 'MIN';
 MAX : 'MAX';
+AS : 'AS';
 
 fragment DIGIT : [0-9];
 fragment A : [aA];

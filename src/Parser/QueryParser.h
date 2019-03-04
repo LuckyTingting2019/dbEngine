@@ -18,15 +18,15 @@ public:
     LT = 14, GTEQ = 15, GT = 16, IS = 17, ADD = 18, SUB = 19, MUL = 20, 
     DIV = 21, SELECT = 22, FROM = 23, WHERE = 24, JOIN = 25, INNER = 26, 
     LEFT = 27, RIGHT = 28, NATURAL = 29, ON = 30, GROUP = 31, BY = 32, SUM = 33, 
-    AVG = 34, COUNT = 35, MIN = 36, MAX = 37, Name = 38, WS = 39
+    AVG = 34, COUNT = 35, MIN = 36, MAX = 37, AS = 38, Name = 39, WS = 40
   };
 
   enum {
-    RuleSelect_stmt = 0, RuleColumns = 1, RuleColumn = 2, RuleRelation = 3, 
-    RuleJoin_operator = 4, RuleJoin_condition = 5, RuleJoin_type = 6, RuleTable = 7, 
-    RuleExpr = 8, RuleMul_div = 9, RuleAdd_sub = 10, RuleFunction = 11, 
-    RuleFunction_name = 12, RuleCompare_operator = 13, RuleLiteral_value = 14, 
-    RuleGroup_by = 15
+    RuleSelect_stmt = 0, RuleColumns = 1, RuleColumn_alias = 2, RuleColumn = 3, 
+    RuleRelation = 4, RuleJoin_operator = 5, RuleJoin_condition = 6, RuleJoin_type = 7, 
+    RuleTable = 8, RuleAlias = 9, RuleExpr = 10, RuleMul_div = 11, RuleAdd_sub = 12, 
+    RuleFunction = 13, RuleFunction_name = 14, RuleCompare_operator = 15, 
+    RuleLiteral_value = 16, RuleGroup_by = 17
   };
 
   QueryParser(antlr4::TokenStream *input);
@@ -41,12 +41,14 @@ public:
 
   class Select_stmtContext;
   class ColumnsContext;
+  class Column_aliasContext;
   class ColumnContext;
   class RelationContext;
   class Join_operatorContext;
   class Join_conditionContext;
   class Join_typeContext;
   class TableContext;
+  class AliasContext;
   class ExprContext;
   class Mul_divContext;
   class Add_subContext;
@@ -81,8 +83,8 @@ public:
   public:
     ColumnsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<ExprContext *> expr();
-    ExprContext* expr(size_t i);
+    std::vector<Column_aliasContext *> column_alias();
+    Column_aliasContext* column_alias(size_t i);
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -92,6 +94,23 @@ public:
   };
 
   ColumnsContext* columns();
+
+  class  Column_aliasContext : public antlr4::ParserRuleContext {
+  public:
+    Column_aliasContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    ExprContext *expr();
+    antlr4::tree::TerminalNode *AS();
+    AliasContext *alias();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Column_aliasContext* column_alias();
 
   class  ColumnContext : public antlr4::ParserRuleContext {
   public:
@@ -115,6 +134,8 @@ public:
     RelationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     TableContext *table();
+    antlr4::tree::TerminalNode *AS();
+    AliasContext *alias();
     Select_stmtContext *select_stmt();
     std::vector<RelationContext *> relation();
     RelationContext* relation(size_t i);
@@ -194,6 +215,21 @@ public:
   };
 
   TableContext* table();
+
+  class  AliasContext : public antlr4::ParserRuleContext {
+  public:
+    AliasContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *Name();
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  AliasContext* alias();
 
   class  ExprContext : public antlr4::ParserRuleContext {
   public:

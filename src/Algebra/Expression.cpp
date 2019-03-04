@@ -11,3 +11,10 @@ std::string algebra::Expression::getType() {
     return this -> type;
 }
 
+const std::string& algebra::Expression::getAlias() const {
+    return alias;
+}
+
+void algebra::Expression::setAlias(const std::string& alias) {
+    this -> alias = alias;
+}

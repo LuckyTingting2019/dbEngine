@@ -42,7 +42,7 @@ namespace algebra {
         std::shared_ptr<algebra::Expression> findExpr(queryparser::QueryParser::ExprContext* expr);
         std::shared_ptr<algebra::LiteralValue> findLiteralValue(queryparser::QueryParser::Literal_valueContext* literal);
         std::shared_ptr<algebra::Function> findFunction(queryparser::QueryParser::FunctionContext* func);
-        std::shared_ptr<algebra::Column> findColumn(queryparser::QueryParser::ColumnContext* column);
+        std::shared_ptr<algebra::Expression> findColumn(queryparser::QueryParser::ColumnContext* column);
         std::shared_ptr<algebra::BinaryExpr> findBinaryExpr(queryparser::QueryParser::ExprContext* expr);
         std::string findOper(queryparser::QueryParser::ExprContext* expr);
         void findFilter(queryparser::QueryParser::Select_stmtContext* tree);

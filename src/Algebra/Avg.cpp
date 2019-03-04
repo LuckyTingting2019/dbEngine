@@ -31,7 +31,7 @@ std::string algebra::Avg::findName() {
 }
 
 std::string algebra::Avg::findValue() {
-    return fieldType == "int" ? std::to_string(sumi / count) : std::to_string(sumd / count);
+    return count == 0 ? "NULL" : fieldType == "int" ? std::to_string(sumi / count) : std::to_string(sumd / count);
 }
 
 std::shared_ptr<algebra::Function> algebra::Avg::duplicate() {

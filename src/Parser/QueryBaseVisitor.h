@@ -25,6 +25,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitColumn_alias(QueryParser::Column_aliasContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitColumn(QueryParser::ColumnContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -46,6 +50,10 @@ public:
   }
 
   virtual antlrcpp::Any visitTable(QueryParser::TableContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitAlias(QueryParser::AliasContext *ctx) override {
     return visitChildren(ctx);
   }
 

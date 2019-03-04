@@ -23,7 +23,9 @@ algebra::Row ProjIterator::next() {
     //projection could be a column, a function, or numeric binary expression
     for(auto x : proj -> getColumns()) {
         colName = x -> findName();
+        res.put(colName, x -> findValue(row));
         //std::cout << std::to_string(typeid(*x).name() == typeid(algebra::NumericBinaryExpr).name()) << std::endl;
+        /*
         if (typeid(*x).name() == typeid(algebra::NumericBinaryExpr).name()) {
             res.put(colName, x -> findValue(row));
         } else {
@@ -33,6 +35,7 @@ algebra::Row ProjIterator::next() {
                 res.put(colName, row.get(colName));
             }
         }
+        */
     }
     return res;
 }
@@ -40,10 +43,12 @@ algebra::Row ProjIterator::next() {
 void ProjIterator::print() {
     std::stringstream ss;
     std::string s;
+    std::string name;
     for (auto x : proj -> getColumns()) {
+        name = x -> getAlias() == "" ? x -> findName() : x -> getAlias();
         ss << std::left;
         ss << std::setw(20);
-        ss << x -> findName() + ", ";
+        ss << name + ", ";
     }
     s = ss.str();
     s.pop_back();

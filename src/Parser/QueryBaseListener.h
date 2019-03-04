@@ -24,6 +24,9 @@ public:
   virtual void enterColumns(QueryParser::ColumnsContext * /*ctx*/) override { }
   virtual void exitColumns(QueryParser::ColumnsContext * /*ctx*/) override { }
 
+  virtual void enterColumn_alias(QueryParser::Column_aliasContext * /*ctx*/) override { }
+  virtual void exitColumn_alias(QueryParser::Column_aliasContext * /*ctx*/) override { }
+
   virtual void enterColumn(QueryParser::ColumnContext * /*ctx*/) override { }
   virtual void exitColumn(QueryParser::ColumnContext * /*ctx*/) override { }
 
@@ -41,6 +44,9 @@ public:
 
   virtual void enterTable(QueryParser::TableContext * /*ctx*/) override { }
   virtual void exitTable(QueryParser::TableContext * /*ctx*/) override { }
+
+  virtual void enterAlias(QueryParser::AliasContext * /*ctx*/) override { }
+  virtual void exitAlias(QueryParser::AliasContext * /*ctx*/) override { }
 
   virtual void enterExpr(QueryParser::ExprContext * /*ctx*/) override { }
   virtual void exitExpr(QueryParser::ExprContext * /*ctx*/) override { }

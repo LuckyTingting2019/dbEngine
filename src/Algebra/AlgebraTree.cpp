@@ -18,6 +18,7 @@
 #include "Count.h"
 #include "Min.h"
 #include "Max.h"
+#include "Trees.h"
 void algebra::AlgebraTree::getType() {
     std::cout << "This is an algebraTree." << std::endl;
 }
@@ -27,8 +28,8 @@ algebra::AlgebraTree::AlgebraTree(queryparser::QueryParser::Select_stmtContext* 
         hasGroupBy = true;
     }
     findRelation(tree);
-    findFilter(tree);
     findProj(tree);
+    findFilter(tree);
     findGroupBy(tree);
 }
 
@@ -44,6 +45,9 @@ std::shared_ptr<algebra::Relation> algebra::AlgebraTree::findRelation(queryparse
     if (relat -> table()) {
         std::string tableName = relat -> table() -> Name() -> getText();
         algebra::Table table(tableName);
+        if (relat -> AS()) {
+            table.setAlias(relat -> alias() -> Name() -> getText());
+        }
         Schema::addTable(table);
         return std::make_shared<algebra::Table>(table);
     } else if (relat -> join_operator()) {
@@ -51,6 +55,11 @@ std::shared_ptr<algebra::Relation> algebra::AlgebraTree::findRelation(queryparse
         std::shared_ptr<algebra::Relation> right = findRelation(relat -> relation(1));
         std::string joinType = findJoinType(relat -> join_operator() -> join_type());
         std::shared_ptr<algebra::Join> join_ptr = std::make_shared<algebra::Join>(left, right, joinType);
+        if (relat -> AS()) {
+            std::string alias = relat -> alias() -> Name() -> getText();
+            join_ptr -> setAlias(alias);
+            Schema::addTableAlias(alias, "any");
+        }
         if (relat -> join_condition()) {
             join_ptr -> setCondition(std::dynamic_pointer_cast<algebra::BoolBinaryExpr>(findExpr(relat -> join_condition() -> expr())));
         }
@@ -59,14 +68,20 @@ std::shared_ptr<algebra::Relation> algebra::AlgebraTree::findRelation(queryparse
         }
         return join_ptr;
     } else if (relat -> select_stmt()) {
-        return std::make_shared<algebra::AlgebraTree>(relat -> select_stmt());
-        
+        std::shared_ptr<algebra::AlgebraTree> algebraTree = std::make_shared<algebra::AlgebraTree>(relat -> select_stmt());
+        if (relat -> AS()) {
+            std::string alias = relat -> alias() -> Name() -> getText();
+            algebraTree -> setAlias(alias);
+            Schema::addTableAlias(alias, "any");
+        }
+        return algebraTree;
     } else {
         throw "Unsupported relation: " + relat -> getText();
     }
 }
 
 std::shared_ptr<algebra::Expression> algebra::AlgebraTree::findExpr(queryparser::QueryParser::ExprContext* expr) {
+    std::string alias;
     if (expr -> literal_value()) {
         return findLiteralValue(expr -> literal_value());
     } else if (expr -> column()) {
@@ -121,15 +136,24 @@ std::shared_ptr<algebra::Function> algebra::AlgebraTree::findFunction(queryparse
     return function;
 }
 
-std::shared_ptr<algebra::Column> algebra::AlgebraTree::findColumn(queryparser::QueryParser::ColumnContext* column) {
+std::shared_ptr<algebra::Expression> algebra::AlgebraTree::findColumn(queryparser::QueryParser::ColumnContext* column) {
     std::string tableName;
     std::string colName;
     std::string colType;
     if (column -> Name()) {
         colName = column -> Name() -> getText();
+        if (Schema::isNameExprAlias(colName)) {
+            return Schema::getExprFromAlias(colName);
+        }
     }
     if (column -> table()) {
         tableName = column -> table() -> Name() -> getText();
+        if (Schema::isNameTableAlias(tableName)) {
+            tableName = Schema::getTableNameFromAlias(tableName);
+            if (tableName == "any") {
+                tableName = Schema::findTableName(colName);
+            }
+        }
     } else {
         tableName = Schema::findTableName(colName);
     }
@@ -214,16 +238,18 @@ void algebra::AlgebraTree::findFilter(queryparser::QueryParser::Select_stmtConte
 }
 
 void algebra::AlgebraTree::findProj(queryparser::QueryParser::Select_stmtContext *tree) {
-    queryparser::QueryParser::ColumnsContext* columnsContext = tree -> columns();
-    std::vector<queryparser::QueryParser::ExprContext *> exprs = columnsContext -> expr();
+    std::vector<queryparser::QueryParser::Column_aliasContext *> colAliasContext = tree -> columns() -> column_alias();
     std::vector<std::shared_ptr<algebra::Expression>> columns;
-    size_t num = exprs.size();
-    for (size_t i = 0; i != num; i++) {
+    size_t num = colAliasContext.size();
+    std::string alias;
+    queryparser::QueryParser::ExprContext *expr;
+    for (size_t i = 0; i < num; i++) {
+        expr = colAliasContext[i] -> expr();
         //when there is a '*'
-        if (exprs[i] -> column() && exprs[i] -> column() -> MUL()) {
+        if (expr -> column() && expr -> column() -> MUL()) {
             //when it is table.*
-            if (exprs[i] -> column() -> table()) {
-                std::string tableName = exprs[i] -> column() -> table() -> Name() -> getText();
+            if (expr -> column() -> table()) {
+                std::string tableName = expr -> column() -> table() -> Name() -> getText();
                 for (auto x: Schema::getColumns()) {
                     if (tableName == x.first) {
                         for (auto y : x.second) {
@@ -239,7 +265,13 @@ void algebra::AlgebraTree::findProj(queryparser::QueryParser::Select_stmtContext
                 }
             }
         } else {
-            columns.push_back(findExpr(exprs[i]));
+            std::shared_ptr<algebra::Expression> expr_result = findExpr(expr);
+            if (colAliasContext[i] -> alias()) {
+                alias = colAliasContext[i] -> alias() -> Name() -> getText();
+                expr_result -> setAlias(alias);
+                Schema::addExprAlias(alias, expr_result);
+            }
+            columns.push_back(expr_result);
         }
     }
     if (Schema::getIsNaturalJoin()) {
@@ -255,9 +287,9 @@ void algebra::AlgebraTree::findGroupBy(queryparser::QueryParser::Select_stmtCont
     if (!groupBy_ptr) {
         groupBy_ptr = std::make_shared<algebra::GroupBy>();
     }
-    std::vector<queryparser::QueryParser::ExprContext *> exprs = tree -> group_by() -> columns() -> expr();
-    for (auto x : exprs) {
-        groupBy_ptr -> addColumn(findExpr(x));
+    std::vector<queryparser::QueryParser::Column_aliasContext *> colAliasContext = tree -> group_by() -> columns() -> column_alias();
+    for (auto x : colAliasContext) {
+        groupBy_ptr -> addColumn(findExpr(x -> expr()));
     }
     /*
     for (auto x : proj_ptr -> getColumns()) {

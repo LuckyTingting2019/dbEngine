@@ -38,6 +38,7 @@ namespace algebra {
         void setColumnName(const std::string& columnName);
         void setFieldType(const std::string& fieldType);
         
+        
         std::string findFullName() const;
         
     private:

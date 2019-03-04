@@ -12,10 +12,17 @@ std::string algebra::Function::getType() {
 }
 
 std::string algebra::Function::findValue(const algebra::Row& row) {
-    return row.get(findName());
+    if (row.containsField(findName())) {
+        return row.get(findName());
+    } else if (row.containsField(getAlias())) {
+        return row.get(getAlias());
+    } else {
+        throw "Expression with name: " + findName() + " and alias: " + getAlias() + " is not in the row.";
+    }
+    
 }
 std::string algebra::Function::findType() {
-    return fieldType;
+    return this -> fieldType;
 }
 
 algebra::Function::Function(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : name(name), expr(expr) {

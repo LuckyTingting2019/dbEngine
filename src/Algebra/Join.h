@@ -40,6 +40,7 @@ namespace algebra {
         /*
          inherited from Relation:
          string name;
+         string alias;
          unordered_map<string, string> columnTypes;
          vector<algebra::Column> columns;
          */
