@@ -1,3 +1,12 @@
+//
+//  main.cpp
+//  db
+//
+//  Created by Tingting Fan on 3/4/19.
+//  Copyright © 2019 Tingting Fan. All rights reserved.
+//
+
+#include <stdio.h>
 #include <iostream>
 #include <sstream>
 #include "antlr4-runtime.h"
@@ -23,40 +32,46 @@ int main(int , const char **) {
     
     std::cout << "Please input your SQL command: \n";
     std::cout << "> ";
+    std::stringstream inputss;
     for (std::string line; getline(std::cin, line) && line != exitString;) {
-        Schema::reset();
-        antlr4::ANTLRInputStream input(line);
-        queryparser::QueryLexer lexer(&input);
-        antlr4::CommonTokenStream tokens(&lexer);
-        queryparser::QueryParser parser(&tokens);
-        std::shared_ptr<algebra::AlgebraTree> algebraTree = std::make_shared<algebra::AlgebraTree>(parser.select_stmt());
-        std::shared_ptr<ProjIterator> projIterator_ptr = std::dynamic_pointer_cast<ProjIterator>(IteratorBuilder::build(algebraTree));
-        if (projIterator_ptr) {
-            projIterator_ptr -> print();
+        inputss << line;
+        if (line.at(line.length() - 1) == ';') {
+            Schema::reset();
+            antlr4::ANTLRInputStream input(inputss);
+            queryparser::QueryLexer lexer(&input);
+            antlr4::CommonTokenStream tokens(&lexer);
+            queryparser::QueryParser parser(&tokens);
+            std::shared_ptr<algebra::AlgebraTree> algebraTree = std::make_shared<algebra::AlgebraTree>(parser.select_stmt());
+            std::shared_ptr<ProjIterator> projIterator_ptr = std::dynamic_pointer_cast<ProjIterator>(IteratorBuilder::build(algebraTree));
+            if (projIterator_ptr) {
+                projIterator_ptr -> print();
+            }
+            std::cout << "> ";
+        } else {
+            inputss << "\t";
         }
-        std::cout << "> ";
     }
     
     /*
-    string tmp = "test";
-    Row row(tmp);
-    while (csvIterator.hasNext()) {
-        row = csvIterator.next();
-        row.print();
-    }
-    
-    
-    tree::ParseTree *tree = parser.select_stmt();
-    std::cout << tree->toStringTree(&parser) << std::endl;
- 
-    QueryParser::Select_stmtContext* tree1 = parser.select_stmt();
-    queryparser::QueryBaseVisitor visitor;
-    antlrcpp::Any result = visitor.visitSelect_stmt(tree1);
-    std::cout << typeid(result).name()<<std::endl;
-    
-    QueryParser::Select_stmtContext* tree1 = parser.select_stmt();
-    queryparser::MyVisitor visitor;
-    antlrcpp::Any result = visitor.visitSelect_stmt(tree1);
+     string tmp = "test";
+     Row row(tmp);
+     while (csvIterator.hasNext()) {
+     row = csvIterator.next();
+     row.print();
+     }
+     
+     
+     tree::ParseTree *tree = parser.select_stmt();
+     std::cout << tree->toStringTree(&parser) << std::endl;
+     
+     QueryParser::Select_stmtContext* tree1 = parser.select_stmt();
+     queryparser::QueryBaseVisitor visitor;
+     antlrcpp::Any result = visitor.visitSelect_stmt(tree1);
+     std::cout << typeid(result).name()<<std::endl;
+     
+     QueryParser::Select_stmtContext* tree1 = parser.select_stmt();
+     queryparser::MyVisitor visitor;
+     antlrcpp::Any result = visitor.visitSelect_stmt(tree1);
      */
     return 0;
 }

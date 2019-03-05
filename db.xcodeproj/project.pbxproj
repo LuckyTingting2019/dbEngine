@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D6D0DA9B22277CF5008BC8BA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0DA9A22277CF5008BC8BA /* main.cpp */; };
 		D6D0DAAD222780A6008BC8BA /* Schema.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0DAAB222780A5008BC8BA /* Schema.cpp */; };
 		D6D0DAC2222780B7008BC8BA /* QueryBaseVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0DAB0222780B7008BC8BA /* QueryBaseVisitor.cpp */; };
 		D6D0DAC3222780B7008BC8BA /* MyVisitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0DAB3222780B7008BC8BA /* MyVisitor.cpp */; };
@@ -199,6 +198,7 @@
 		D6D0E5252228CAF4008BC8BA /* Token.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E48F2228CAF3008BC8BA /* Token.cpp */; };
 		D6D0E5262228CAF4008BC8BA /* LexerNoViableAltException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E4902228CAF3008BC8BA /* LexerNoViableAltException.cpp */; };
 		D6D0E5272228CAF4008BC8BA /* WritableToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E4912228CAF3008BC8BA /* WritableToken.cpp */; };
+		D6D0E533222DF184008BC8BA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E532222DF184008BC8BA /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -215,7 +215,6 @@
 
 /* Begin PBXFileReference section */
 		D6D0DA9722277CF5008BC8BA /* db */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = db; sourceTree = BUILT_PRODUCTS_DIR; };
-		D6D0DA9A22277CF5008BC8BA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D6D0DAA82227809C008BC8BA /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		D6D0DAA92227809C008BC8BA /* Utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utilities.cpp; sourceTree = "<group>"; };
 		D6D0DAAB222780A5008BC8BA /* Schema.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Schema.cpp; sourceTree = "<group>"; };
@@ -622,6 +621,7 @@
 		D6D0E52E2228CB2B008BC8BA /* Student.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Student.txt; sourceTree = "<group>"; };
 		D6D0E52F2228CB2B008BC8BA /* Course.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Course.txt; sourceTree = "<group>"; };
 		D6D0E5302228CB2B008BC8BA /* Score.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Score.txt; sourceTree = "<group>"; };
+		D6D0E532222DF184008BC8BA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -663,7 +663,7 @@
 				D6D0DAA422277D62008BC8BA /* Parser */,
 				D6D0DAA322277D4A008BC8BA /* Algebra */,
 				D6D0DAA222277D3C008BC8BA /* Iterators */,
-				D6D0DA9A22277CF5008BC8BA /* main.cpp */,
+				D6D0E532222DF184008BC8BA /* main.cpp */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1323,7 +1323,6 @@
 				D6D0E49D2228CAF4008BC8BA /* XPathWildcardAnywhereElement.cpp in Sources */,
 				D6D0E4E82228CAF4008BC8BA /* LexerIndexedCustomAction.cpp in Sources */,
 				D6D0DB26222780D2008BC8BA /* ProjIterator.cpp in Sources */,
-				D6D0DA9B22277CF5008BC8BA /* main.cpp in Sources */,
 				D6D0E4C12228CAF4008BC8BA /* DFA.cpp in Sources */,
 				D6D0E4D62228CAF4008BC8BA /* Any.cpp in Sources */,
 				D6D0E4DC2228CAF4008BC8BA /* BlockStartState.cpp in Sources */,
@@ -1428,6 +1427,7 @@
 				D6D0DB29222780D2008BC8BA /* FilterIterator.cpp in Sources */,
 				D6D0DAAD222780A6008BC8BA /* Schema.cpp in Sources */,
 				D6D0DAF3222780C5008BC8BA /* Column.cpp in Sources */,
+				D6D0E533222DF184008BC8BA /* main.cpp in Sources */,
 				D6D0E4BA2228CAF4008BC8BA /* UnbufferedTokenStream.cpp in Sources */,
 				D6D0E4A12228CAF4008BC8BA /* XPath.cpp in Sources */,
 				D6D0DAF5222780C5008BC8BA /* Avg.cpp in Sources */,
