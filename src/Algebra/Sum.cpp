@@ -12,6 +12,7 @@ std::string algebra::Sum::getType() {
     return this -> type;
 }
 algebra::Sum::Sum(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : algebra::Function(name, expr) {
+    type = "SUM";
 }
 
 void algebra::Sum::update(const algebra::Row& row) {
@@ -27,9 +28,9 @@ void algebra::Sum::update(const algebra::Row& row) {
     }
 }
 
-std::string algebra::Sum::findName() {
-    return type + "(" + col_ptr -> findName() + ")";
-}
+//std::string algebra::Sum::findName() {
+  //  return type + "(" + col_ptr -> findName() + ")";
+//}
 
 std::string algebra::Sum::findValue() {
     return fieldType == "int" ? std::to_string(sumi) : std::to_string(sumd);

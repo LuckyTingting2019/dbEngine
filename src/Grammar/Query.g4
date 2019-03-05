@@ -33,7 +33,10 @@ expr
 | expr AND expr //filter
 | expr OR expr //filter
 | function //columns
+| distinct
 ;
+
+distinct : DISTINCT column ( ',' column )*;
 
 mul_div : MUL | DIV;
 add_sub : ADD | SUB;
@@ -84,6 +87,7 @@ COUNT : 'COUNT';
 MIN : 'MIN';
 MAX : 'MAX';
 AS : 'AS';
+DISTINCT : 'DISTINCT';
 
 fragment DIGIT : [0-9];
 fragment A : [aA];

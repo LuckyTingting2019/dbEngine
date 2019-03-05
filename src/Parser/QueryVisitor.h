@@ -42,6 +42,8 @@ public:
 
     virtual antlrcpp::Any visitExpr(QueryParser::ExprContext *context) = 0;
 
+    virtual antlrcpp::Any visitDistinct(QueryParser::DistinctContext *context) = 0;
+
     virtual antlrcpp::Any visitMul_div(QueryParser::Mul_divContext *context) = 0;
 
     virtual antlrcpp::Any visitAdd_sub(QueryParser::Add_subContext *context) = 0;

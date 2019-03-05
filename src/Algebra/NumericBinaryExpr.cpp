@@ -34,6 +34,12 @@ std::string algebra::NumericBinaryExpr::findValue(const algebra::Row& row) {
     } else if (type == "float") {
         leftd = std::stod(leftV);
         rightd = std::stod(rightV);
+    } else if (type == "varchar") {
+        if (oper == "+") {
+            return leftV + rightV;
+        } else {
+            throw "Unsupported operation for type varchar.";
+        }
     } else {
         throw "Unsupported data type: " + type + " for numeric binary expression";
     }
@@ -55,7 +61,8 @@ std::string algebra::NumericBinaryExpr::findType() {
     std::string typer = right -> findType();
     std::string type;
    if (typel == "varchar" || typer == "varchar") {
-        throw "Not comparable left and right value types: " + typel + ", " + typer;
+       type = "varchar";
+        //throw "Not comparable left and right value types: " + typel + ", " + typer;
    } else  if (typel == typer) {
        type = typel;
    } else {

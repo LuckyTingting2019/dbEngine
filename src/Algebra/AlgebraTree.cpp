@@ -88,11 +88,22 @@ std::shared_ptr<algebra::Expression> algebra::AlgebraTree::findExpr(queryparser:
         return findColumn(expr -> column());
     } else if (expr -> function()) {
         return findFunction(expr -> function());
+    } else if (expr -> distinct()) {
+        return findDistinct(expr -> distinct());
     } else if (expr -> add_sub() || expr -> mul_div() || expr -> compare_operator() || expr -> AND() || expr -> OR()) {
         return findBinaryExpr(expr);
     } else {
         throw "Unrecongnized expression: " + expr -> getText();
     }
+}
+
+std::shared_ptr<algebra::Distinct> algebra::AlgebraTree::findDistinct(queryparser::QueryParser::DistinctContext* dis) {
+    std::vector<std::shared_ptr<algebra::Column>> cols;
+    for (auto x : dis -> column()) {
+        cols.push_back(std::dynamic_pointer_cast<algebra::Column>(findColumn(x)));
+    }
+    Schema::setHasDistinct(true);
+    return std::make_shared<algebra::Distinct>(cols);
 }
 
 std::shared_ptr<algebra::LiteralValue> algebra::AlgebraTree::findLiteralValue(queryparser::QueryParser::Literal_valueContext* literal) {

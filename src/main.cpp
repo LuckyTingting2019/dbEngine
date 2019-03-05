@@ -30,12 +30,13 @@ int main(int , const char **) {
     std::string exitString = "exit";
     //ANTLRInputStream input(u8" SELECT ID FROM STD ");
     
-    std::cout << "Please input your SQL command: \n";
+    std::cout << "Please input your query command: \n";
     std::cout << "> ";
     std::stringstream inputss;
     for (std::string line; getline(std::cin, line) && line != exitString;) {
         inputss << line;
         if (line.at(line.length() - 1) == ';') {
+            std::cout << std::endl;
             Schema::reset();
             antlr4::ANTLRInputStream input(inputss);
             queryparser::QueryLexer lexer(&input);

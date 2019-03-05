@@ -18,7 +18,8 @@ public:
     LT = 14, GTEQ = 15, GT = 16, IS = 17, ADD = 18, SUB = 19, MUL = 20, 
     DIV = 21, SELECT = 22, FROM = 23, WHERE = 24, JOIN = 25, INNER = 26, 
     LEFT = 27, RIGHT = 28, NATURAL = 29, ON = 30, GROUP = 31, BY = 32, SUM = 33, 
-    AVG = 34, COUNT = 35, MIN = 36, MAX = 37, AS = 38, Name = 39, WS = 40
+    AVG = 34, COUNT = 35, MIN = 36, MAX = 37, AS = 38, DISTINCT = 39, Name = 40, 
+    WS = 41
   };
 
   QueryLexer(antlr4::CharStream *input);

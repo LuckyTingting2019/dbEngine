@@ -19,7 +19,7 @@ namespace algebra {
     class Sum : public Function {
     public:
         std::string getType() override;
-        std::string findName() override;
+        //std::string findName() override;
         
         Sum(const std::string& name, const std::shared_ptr<algebra::Expression>& expr);
         
@@ -28,7 +28,6 @@ namespace algebra {
         std::string findValue() override;
         
     private:
-        const std::string type = "SUM";
         int sumi = 0;
         double sumd = 0.0;
         

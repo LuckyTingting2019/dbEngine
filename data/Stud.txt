@@ -1,0 +1,9 @@
+SID	int
+Fname	varchar
+Lname	varchar
+Age	int
+Street	varchar
+City	varchar
+State	varchar
+ZIP	varchar
+Country	varchar

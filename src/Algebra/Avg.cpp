@@ -10,7 +10,9 @@
 std::string algebra::Avg::getType() {
     return this -> type;
 }
-algebra::Avg::Avg(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : algebra::Function(name, expr) {}
+algebra::Avg::Avg(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : algebra::Function(name, expr) {
+    type = "AVG";
+}
 
 void algebra::Avg::update(const algebra::Row& row) {
     if (row.get(col_ptr -> findName()) == "NULL") {
@@ -26,9 +28,9 @@ void algebra::Avg::update(const algebra::Row& row) {
     }
 }
 
-std::string algebra::Avg::findName() {
-    return type + "(" + col_ptr -> findName() + ")";
-}
+//std::string algebra::Avg::findName() {
+  //  return type + "(" + col_ptr -> findName() + ")";
+//}
 
 std::string algebra::Avg::findValue() {
     return count == 0 ? "NULL" : fieldType == "int" ? std::to_string(sumi / count) : std::to_string(sumd / count);

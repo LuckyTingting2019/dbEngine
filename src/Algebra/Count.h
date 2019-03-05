@@ -17,7 +17,7 @@ namespace algebra {
     class Count : public Function {
     public:
         std::string getType() override;
-        std::string findName() override;
+        //std::string findName() override;
         
         Count(const std::string& name, const std::shared_ptr<algebra::Expression>& expr);
         
@@ -26,8 +26,8 @@ namespace algebra {
         std::string findValue() override;
         
     private:
-        const std::string type = "COUNT";
-        int count;
+        
+        int count = 0;
         /*
          const std::string type = "Function";
          std::string name;

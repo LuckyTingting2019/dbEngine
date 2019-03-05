@@ -7,6 +7,7 @@
 //
 
 #include "Function.h"
+#include "Distinct.hpp"
 std::string algebra::Function::getType() {
     return this -> type;
 }
@@ -25,8 +26,24 @@ std::string algebra::Function::findType() {
     return this -> fieldType;
 }
 
+std::string algebra::Function::findName() {
+    return type + "(" + expr -> findName() + ")";
+}
+
 algebra::Function::Function(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : name(name), expr(expr) {
-    col_ptr = std::dynamic_pointer_cast<algebra::Column>(expr);
+    //std::cout <<
+    if (typeid(*expr).name() == typeid(algebra::Distinct).name()) {
+        std::shared_ptr<algebra::Distinct> dis = std::dynamic_pointer_cast<algebra::Distinct>(expr);
+        std::vector<std::shared_ptr<algebra::Column>> cols = dis -> getCols();
+        if (cols.size() != 1) {
+            throw "Incorrect number of columns in Distinct clause when used with function.";
+        } else {
+            col_ptr = cols[0];
+        }
+
+    } else {
+        col_ptr = std::dynamic_pointer_cast<algebra::Column>(expr);
+    }
     fieldType = col_ptr -> getFieldType();
 }
 

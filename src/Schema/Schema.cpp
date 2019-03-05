@@ -15,6 +15,7 @@ std::unordered_map<std::string, std::vector<algebra::Column>> Schema::tables_col
 std::unordered_map<std::string, std::string> Schema::tables_alias;
 std::vector<std::string> Schema::tables;
 std::unordered_map<std::string, std::shared_ptr<algebra::Expression>> Schema::expr_alias;
+bool Schema::hasDistinct = false;
 
 void Schema::addTable(const algebra::Table &table) {
     //setup tables
@@ -41,6 +42,14 @@ void Schema::addTable(const algebra::Table &table) {
 
 bool Schema::getIsNaturalJoin() {
     return Schema::isNaturalJoin;
+}
+
+bool Schema::getHasDistinct() {
+    return Schema::hasDistinct;
+}
+
+void Schema::setHasDistinct(bool hasDistinct) {
+    Schema::hasDistinct = hasDistinct;
 }
 
 const std::unordered_map<std::string, std::vector<algebra::Column>>& Schema::getColumns() {
@@ -155,6 +164,7 @@ std::string Schema::findMatchedName(const std::string& tableName, const std::str
 
 void Schema::reset() {
     Schema::isNaturalJoin = false;
+    Schema::hasDistinct = false;
     Schema::tables.clear();
     Schema::tables_colType.clear();
     Schema::tables_columns.clear();

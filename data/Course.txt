@@ -1,2 +1,2 @@
-CourseID	int
-CourseName	varchar
+CID	int
+CName	varchar

@@ -1,11 +1,11 @@
-﻿CourseID,CourseName
-1,Mathmatics
-2,Quantum Physics
-3,Organic Chemstry
-4,Operating System Fundamentals
-5,Database Fundamentals
-6,Computation Physics
-7,Data Structure and Algorithms
-8,Distributed System
-9,Machine Learning
-10,C++ Programming
+CID,CName
+1,Math
+2,Physics
+3,Chemstry
+4,Java
+5,Database
+6,Statistics
+7,Algorithms
+8,ML
+9,AI
+10,C++

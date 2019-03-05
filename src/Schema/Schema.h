@@ -18,6 +18,8 @@ class Schema {
 public:
     static bool getIsNaturalJoin();
     static void setIsNaturalJoin(bool isNaturalJoin);
+    static bool getHasDistinct();
+    static void setHasDistinct(bool hasDistinct);
     static void addTable(const algebra::Table& table);
     static const std::unordered_map<std::string, std::vector<algebra::Column>>& getColumns();
     static const std::unordered_map<std::string, std::unordered_map<std::string, std::string>>& getColType();
@@ -52,6 +54,7 @@ private:
     static std::unordered_map<std::string, std::unordered_map<std::string, std::string>> tables_colType;
     //key = tableName, value = simpleColNames
     static std::unordered_map<std::string, std::vector<algebra::Column>> tables_columns;
+    static bool hasDistinct;
     
 };
 

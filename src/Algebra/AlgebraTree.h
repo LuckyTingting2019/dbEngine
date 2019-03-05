@@ -20,6 +20,7 @@
 #include "BinaryExpr.h"
 #include "unordered_set"
 #include "GroupBy.h"
+#include "Distinct.hpp"
 namespace algebra {
     
     class AlgebraTree : public Relation {
@@ -45,6 +46,7 @@ namespace algebra {
         std::shared_ptr<algebra::Expression> findColumn(queryparser::QueryParser::ColumnContext* column);
         std::shared_ptr<algebra::BinaryExpr> findBinaryExpr(queryparser::QueryParser::ExprContext* expr);
         std::string findOper(queryparser::QueryParser::ExprContext* expr);
+        std::shared_ptr<algebra::Distinct> findDistinct(queryparser::QueryParser::DistinctContext* dis);
         void findFilter(queryparser::QueryParser::Select_stmtContext* tree);
         void findProj(queryparser::QueryParser::Select_stmtContext* tree);
         void findGroupBy(queryparser::QueryParser::Select_stmtContext* tree);

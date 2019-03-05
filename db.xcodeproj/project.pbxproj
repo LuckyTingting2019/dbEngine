@@ -199,6 +199,7 @@
 		D6D0E5262228CAF4008BC8BA /* LexerNoViableAltException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E4902228CAF3008BC8BA /* LexerNoViableAltException.cpp */; };
 		D6D0E5272228CAF4008BC8BA /* WritableToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E4912228CAF3008BC8BA /* WritableToken.cpp */; };
 		D6D0E533222DF184008BC8BA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E532222DF184008BC8BA /* main.cpp */; };
+		D6D0E536222E00FF008BC8BA /* Distinct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E534222E00FF008BC8BA /* Distinct.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -615,13 +616,15 @@
 		D6D0E4922228CAF3008BC8BA /* LexerInterpreter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LexerInterpreter.h; sourceTree = "<group>"; };
 		D6D0E5292228CB2B008BC8BA /* Course.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Course.csv; sourceTree = "<group>"; };
 		D6D0E52A2228CB2B008BC8BA /* Score.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Score.csv; sourceTree = "<group>"; };
-		D6D0E52B2228CB2B008BC8BA /* Student.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Student.csv; sourceTree = "<group>"; };
+		D6D0E52B2228CB2B008BC8BA /* Stud.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Stud.csv; sourceTree = "<group>"; };
 		D6D0E52C2228CB2B008BC8BA /* Schema.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Schema.rtf; sourceTree = "<group>"; };
 		D6D0E52D2228CB2B008BC8BA /* Score.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Score.xlsx; sourceTree = "<group>"; };
-		D6D0E52E2228CB2B008BC8BA /* Student.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Student.txt; sourceTree = "<group>"; };
+		D6D0E52E2228CB2B008BC8BA /* Stud.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Stud.txt; sourceTree = "<group>"; };
 		D6D0E52F2228CB2B008BC8BA /* Course.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Course.txt; sourceTree = "<group>"; };
 		D6D0E5302228CB2B008BC8BA /* Score.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Score.txt; sourceTree = "<group>"; };
 		D6D0E532222DF184008BC8BA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D6D0E534222E00FF008BC8BA /* Distinct.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Distinct.cpp; sourceTree = "<group>"; };
+		D6D0E535222E00FF008BC8BA /* Distinct.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Distinct.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -714,6 +717,8 @@
 				D6D0DAE8222780C4008BC8BA /* NumericBinaryExpr.h */,
 				D6D0DAEC222780C4008BC8BA /* Function.cpp */,
 				D6D0DACC222780C3008BC8BA /* Function.h */,
+				D6D0E534222E00FF008BC8BA /* Distinct.cpp */,
+				D6D0E535222E00FF008BC8BA /* Distinct.hpp */,
 				D6D0DAE7222780C4008BC8BA /* Sum.cpp */,
 				D6D0DAEA222780C4008BC8BA /* Sum.h */,
 				D6D0DACF222780C3008BC8BA /* Avg.cpp */,
@@ -1183,10 +1188,10 @@
 			children = (
 				D6D0E5292228CB2B008BC8BA /* Course.csv */,
 				D6D0E52A2228CB2B008BC8BA /* Score.csv */,
-				D6D0E52B2228CB2B008BC8BA /* Student.csv */,
+				D6D0E52B2228CB2B008BC8BA /* Stud.csv */,
 				D6D0E52C2228CB2B008BC8BA /* Schema.rtf */,
 				D6D0E52D2228CB2B008BC8BA /* Score.xlsx */,
-				D6D0E52E2228CB2B008BC8BA /* Student.txt */,
+				D6D0E52E2228CB2B008BC8BA /* Stud.txt */,
 				D6D0E52F2228CB2B008BC8BA /* Course.txt */,
 				D6D0E5302228CB2B008BC8BA /* Score.txt */,
 			);
@@ -1421,6 +1426,7 @@
 				D6D0E4A22228CAF4008BC8BA /* XPathTokenAnywhereElement.cpp in Sources */,
 				D6D0E5122228CAF4008BC8BA /* PrecedencePredicateTransition.cpp in Sources */,
 				D6D0E4DE2228CAF4008BC8BA /* BlockEndState.cpp in Sources */,
+				D6D0E536222E00FF008BC8BA /* Distinct.cpp in Sources */,
 				D6D0E4DF2228CAF4008BC8BA /* Transition.cpp in Sources */,
 				D6D0DB00222780C5008BC8BA /* Table.cpp in Sources */,
 				D6D0E5212228CAF4008BC8BA /* ParserRuleContext.cpp in Sources */,

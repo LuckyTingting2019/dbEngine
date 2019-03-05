@@ -1,0 +1,11 @@
+SID,Fname,Lname,Age,Street,City,State,ZIP,Country
+1001,James,Li,17,12 1th St,Boulder,CO,80302,USA
+1002,Rony,Zhang,18,25 3th St,Denver,CO,80309,USA
+1003,Henry,Li,17,24 2th St,San Jose,CA,95130,USA
+1004,Daniel,Zhao,18,25 3th St,San Jose,CA,95129,USA
+1005,Dennis,Wu,19,26 4th St,San Jose,CA,95128,USA
+1006,Lily,Zhu,20,27 5th St,San Jose,CA,95127,USA
+1007,Lucy,Wang,16,28 6th St,San Jose,CA,95126,USA
+1008,Sam,Zhao,17,29 7th St,San Jose,CA,95125,USA
+1009,Lucus,Cai,18,30 8th St,San Jose,CA,95124,USA
+1010,David,Wei,17,31 9th St,San Jose,CA,95123,USA

@@ -1,3 +1,0 @@
-StudentID	int
-Name	varchar
-Age	int

@@ -49,6 +49,9 @@ public:
   virtual void enterExpr(QueryParser::ExprContext *ctx) = 0;
   virtual void exitExpr(QueryParser::ExprContext *ctx) = 0;
 
+  virtual void enterDistinct(QueryParser::DistinctContext *ctx) = 0;
+  virtual void exitDistinct(QueryParser::DistinctContext *ctx) = 0;
+
   virtual void enterMul_div(QueryParser::Mul_divContext *ctx) = 0;
   virtual void exitMul_div(QueryParser::Mul_divContext *ctx) = 0;
 

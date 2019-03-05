@@ -61,6 +61,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitDistinct(QueryParser::DistinctContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitMul_div(QueryParser::Mul_divContext *ctx) override {
     return visitChildren(ctx);
   }

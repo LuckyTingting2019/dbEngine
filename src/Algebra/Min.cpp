@@ -11,7 +11,9 @@
 std::string algebra::Min::getType() {
     return this -> type;
 }
-algebra::Min::Min(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : algebra::Function(name, expr) {}
+algebra::Min::Min(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : algebra::Function(name, expr) {
+    type = "MIN";
+}
 
 void algebra::Min::update(const algebra::Row& row) {
     if (row.get(col_ptr -> findName()) == "NULL") {
@@ -20,7 +22,7 @@ void algebra::Min::update(const algebra::Row& row) {
     if (fieldType == "int") {
         mini = std::min(std::stoi(row.get(col_ptr -> findName())), mini);
     } else if (fieldType == "float") {
-        mind += std::min(std::stod(row.get(col_ptr -> findName())), mind);
+        mind = std::min(std::stod(row.get(col_ptr -> findName())), mind);
     } else if (fieldType == "varchar") {
         if (mins == "") {
             mins = row.get(col_ptr -> findName());
@@ -32,12 +34,18 @@ void algebra::Min::update(const algebra::Row& row) {
     }
 }
 
-std::string algebra::Min::findName() {
-    return type + "(" + col_ptr -> findName() + ")";
-}
+//std::string algebra::Min::findName() {
+  //  return type + "(" + col_ptr -> findName() + ")";
+//}
 
 std::string algebra::Min::findValue() {
-    return fieldType == "int" ? std::to_string(mini) : fieldType == "float" ? std::to_string(mind) : mins;
+    if (fieldType == "varchar") {
+        return mins == "" ? "NULL" : mins;
+    } else if (fieldType == "int") {
+        return mini == INT_MAX ? "NULL" : std::to_string(mini);
+    } else {
+        return mind == std::numeric_limits<double>::max() ? "NULL" : std::to_string(mind);
+    }
 }
 
 std::shared_ptr<algebra::Function> algebra::Min::duplicate() {

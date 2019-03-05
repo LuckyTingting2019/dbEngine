@@ -18,15 +18,16 @@ public:
     LT = 14, GTEQ = 15, GT = 16, IS = 17, ADD = 18, SUB = 19, MUL = 20, 
     DIV = 21, SELECT = 22, FROM = 23, WHERE = 24, JOIN = 25, INNER = 26, 
     LEFT = 27, RIGHT = 28, NATURAL = 29, ON = 30, GROUP = 31, BY = 32, SUM = 33, 
-    AVG = 34, COUNT = 35, MIN = 36, MAX = 37, AS = 38, Name = 39, WS = 40
+    AVG = 34, COUNT = 35, MIN = 36, MAX = 37, AS = 38, DISTINCT = 39, Name = 40, 
+    WS = 41
   };
 
   enum {
     RuleSelect_stmt = 0, RuleColumns = 1, RuleColumn_alias = 2, RuleColumn = 3, 
     RuleRelation = 4, RuleJoin_operator = 5, RuleJoin_condition = 6, RuleJoin_type = 7, 
-    RuleTable = 8, RuleAlias = 9, RuleExpr = 10, RuleMul_div = 11, RuleAdd_sub = 12, 
-    RuleFunction = 13, RuleFunction_name = 14, RuleCompare_operator = 15, 
-    RuleLiteral_value = 16, RuleGroup_by = 17
+    RuleTable = 8, RuleAlias = 9, RuleExpr = 10, RuleDistinct = 11, RuleMul_div = 12, 
+    RuleAdd_sub = 13, RuleFunction = 14, RuleFunction_name = 15, RuleCompare_operator = 16, 
+    RuleLiteral_value = 17, RuleGroup_by = 18
   };
 
   QueryParser(antlr4::TokenStream *input);
@@ -50,6 +51,7 @@ public:
   class TableContext;
   class AliasContext;
   class ExprContext;
+  class DistinctContext;
   class Mul_divContext;
   class Add_subContext;
   class FunctionContext;
@@ -238,6 +240,7 @@ public:
     Literal_valueContext *literal_value();
     ColumnContext *column();
     FunctionContext *function();
+    DistinctContext *distinct();
     std::vector<ExprContext *> expr();
     ExprContext* expr(size_t i);
     Mul_divContext *mul_div();
@@ -255,6 +258,23 @@ public:
 
   ExprContext* expr();
   ExprContext* expr(int precedence);
+  class  DistinctContext : public antlr4::ParserRuleContext {
+  public:
+    DistinctContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *DISTINCT();
+    std::vector<ColumnContext *> column();
+    ColumnContext* column(size_t i);
+
+    virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
+    virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  DistinctContext* distinct();
+
   class  Mul_divContext : public antlr4::ParserRuleContext {
   public:
     Mul_divContext(antlr4::ParserRuleContext *parent, size_t invokingState);

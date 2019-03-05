@@ -17,7 +17,7 @@ namespace algebra {
     class Max : public Function {
     public:
         std::string getType() override;
-        std::string findName() override;
+        //std::string findName() override;
         
         Max(const std::string& name, const std::shared_ptr<algebra::Expression>& expr);
         
@@ -26,7 +26,7 @@ namespace algebra {
         std::string findValue() override;
         
     private:
-        const std::string type = "MAX";
+        
         int maxi = INT_MIN;
         double maxd = std::numeric_limits<double>::min();
         std::string maxs = "";

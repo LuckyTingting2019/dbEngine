@@ -15,6 +15,7 @@
 #include "iostream"
 #include "Iterator.h"
 #include "Schema.h"
+#include "Row.h"
 
 class ProjIterator : public Iterator {
 
@@ -28,6 +29,7 @@ public:
 private:
     std::shared_ptr<algebra::Projection> proj;
     std::shared_ptr<Iterator> downStream;
+    algebra::Row nextRow;
 
 };
 

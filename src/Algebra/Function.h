@@ -21,6 +21,7 @@ namespace algebra {
         //This is find the value in row, different from find the current value of the function.
         std::string findValue(const algebra::Row& row) override;
         std::string findType() override;
+        std::string findName() override;
         
         Function(const std::string& name, const std::shared_ptr<algebra::Expression>& expr);
         
@@ -41,9 +42,8 @@ namespace algebra {
         
         std::shared_ptr<algebra::Column> col_ptr;
         std::string fieldType;
-        
-    private:
-        const std::string type = "Function";
+
+        std::string type = "Function";
         
     };
 }

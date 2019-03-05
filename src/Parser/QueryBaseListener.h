@@ -51,6 +51,9 @@ public:
   virtual void enterExpr(QueryParser::ExprContext * /*ctx*/) override { }
   virtual void exitExpr(QueryParser::ExprContext * /*ctx*/) override { }
 
+  virtual void enterDistinct(QueryParser::DistinctContext * /*ctx*/) override { }
+  virtual void exitDistinct(QueryParser::DistinctContext * /*ctx*/) override { }
+
   virtual void enterMul_div(QueryParser::Mul_divContext * /*ctx*/) override { }
   virtual void exitMul_div(QueryParser::Mul_divContext * /*ctx*/) override { }
 
