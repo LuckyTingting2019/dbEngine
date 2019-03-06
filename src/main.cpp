@@ -47,6 +47,7 @@ int main(int , const char **) {
             if (projIterator_ptr) {
                 projIterator_ptr -> print();
             }
+            std::cout << std::endl;
             std::cout << "> ";
         } else {
             inputss << "\t";
