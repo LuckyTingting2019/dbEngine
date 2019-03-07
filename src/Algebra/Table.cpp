@@ -10,6 +10,7 @@
 
 algebra::Table::Table(const std::string& name) {
     this -> name = name;
+    type = "Table";
     setSchema();
 }
 
@@ -54,8 +55,5 @@ void algebra::Table::setSchema() {
     } else {
         std::cout << "Unable to open file!" << std::endl;
     }
-}
-
-void algebra::Table::getType() {
-    std::cout << "This is a Table." << std::endl;
+    tables.insert(name);
 }

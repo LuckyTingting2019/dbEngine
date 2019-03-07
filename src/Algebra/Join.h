@@ -30,7 +30,6 @@ namespace algebra {
         void setRight(const std::shared_ptr<algebra::Relation>& right);
         void setJoinType(const std::string& joinType);
         void setCondition(const std::shared_ptr<algebra::BoolBinaryExpr>& condition);
-        void getType() override;
         
     private:
         std::shared_ptr<algebra::Relation> left;
@@ -39,13 +38,15 @@ namespace algebra {
         std::shared_ptr<algebra::BoolBinaryExpr> joinCondition;
         /*
          inherited from Relation:
-         string name;
-         string alias;
-         unordered_map<string, string> columnTypes;
-         vector<algebra::Column> columns;
+         std::string name;
+         std::string alias;
+         std::unordered_map<std::string, std::string> columnTypes;
+         std::vector<algebra::Column> columns;
+         std::unordered_set<std::string> tables;
+         std::string type = "Relation";
          */
         
-        void setSchema();
+        void setSchema() override;
     }; //class Join
     
 } //namespace algebra

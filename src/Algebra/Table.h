@@ -31,19 +31,20 @@ namespace algebra {
         vector<algebra::Column>& getColumns() override;
         */
         std::string getTablePath() const;
-        void getType() override;
     
     private:
         const std::string path = "data/";
         const std::string extension = ".txt";
         const std::string delimeter = "\t";
-        void setSchema();
+        void setSchema() override;
         /*
         inherited from Relation:
-        string name;
-        string alias;
-        unordered_map<string, string> columnTypes;
-        vector<algebra::Column> columns;
+         std::string name;
+         std::string alias;
+         std::unordered_map<std::string, std::string> columnTypes;
+         std::vector<algebra::Column> columns;
+         std::unordered_set<std::string> tables;
+         std::string type = "Relation";
         */
     }; //class Table
     

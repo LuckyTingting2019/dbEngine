@@ -31,8 +31,7 @@ namespace algebra {
         std::shared_ptr<algebra::Relation> relation_ptr; //for CSVIterator/JoinIterator
         std::shared_ptr<algebra::Filter> filter_ptr;  //for FilterIterator
         std::shared_ptr<algebra::GroupBy> groupBy_ptr; //for GroupByIterator
-        
-        void getType() override;
+    
     private:
         const std::unordered_set<std::string> supFuncs = {"SUM", "AVG", "COUNT", "MAX", "MIN"};
         bool hasGroupBy;
@@ -51,19 +50,16 @@ namespace algebra {
         void findProj(queryparser::QueryParser::Select_stmtContext* tree);
         void findGroupBy(queryparser::QueryParser::Select_stmtContext* tree);
         
-        /* inherited from relation
-        std::string name;
-        std::unordered_map<std::string, std::string> columnTypes;
-        std::vector<algebra::Column> columns;
-         */
+        void setSchema() override;
         
-        //algebra::Filter findJoinCondition(queryparser::QueryParser::Join_conditionContext* JoinConContext);
-        //findFilterOper(queryparser::QueryParser::Compare_operatorContext* operContext);
-        //std::shared_ptr<algebra::Filter> findFilter(queryparser::QueryParser::ExprContext *expr);
-        //std::shared_ptr<algebra::Filter> findSubFilter(queryparser::QueryParser::ExprContext* expr);
-        //std::string findFilterValue(queryparser::QueryParser::Literal_valueContext* valueContext);
-        //std::string findLeftOp(queryparser::QueryParser::ColumnContext* columnContext);
-        //std::string findRightOp(queryparser::QueryParser::ExprContext* exprContext);
+        /* inherited from relation
+         std::string name;
+         std::string alias;
+         std::unordered_map<std::string, std::string> columnTypes;
+         std::vector<algebra::Column> columns;
+         std::unordered_set<std::string> tables;
+         std::string type = "Relation";
+         */
         
     };
     

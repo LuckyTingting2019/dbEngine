@@ -9,6 +9,7 @@
 #include "Join.h"
 
 algebra::Join::Join(const std::shared_ptr<algebra::Relation> left, const std::shared_ptr<algebra::Relation> right, const std::string& joinType) : left(left), right(right), joinType(joinType) {
+    type = "Join";
     setSchema();
 }
 
@@ -38,13 +39,12 @@ void algebra::Join::setCondition(const std::shared_ptr<algebra::BoolBinaryExpr>&
     this -> joinCondition = condition;
 }
 
-void algebra::Join::getType() {
-    std::cout << "This is a Join." << std::endl;
-}
-
 void algebra::Join::setSchema() {
     //for natural join, the schema won't include table name in columns and columnTypes. The schema for columns is all left columns in order first, then right columns in order without common columns
-    name = left -> getName() + joinType + "Join" + right -> getName();
+    //setup name
+    name = left -> getName() + "_" + joinType + "Join" + "_" + right -> getName();
+    
+    //setup columns and columnTypes
     if (joinType == "NATURAL") {
         std::string tmp;
         for (auto x : left -> getColumns()) {
@@ -77,5 +77,12 @@ void algebra::Join::setSchema() {
         for (auto x : right -> getColumnTypes()) {
             columnTypes[x.first] = x.second;
         }
+    }
+    //setup tables
+    for (auto x : left -> getTables()) {
+        tables.insert(x);
+    }
+    for (auto x : right -> getTables()) {
+        tables.insert(x);
     }
 }

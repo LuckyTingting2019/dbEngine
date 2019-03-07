@@ -7,35 +7,34 @@
 //
 
 #include "JoinIterator.h"
-JoinIterator::JoinIterator(const std::shared_ptr<algebra::Join>& join_ptr) : join_ptr(join_ptr) {
-    std::shared_ptr<algebra::Table> leftTable_ptr = std::dynamic_pointer_cast<algebra::Table>(join_ptr -> getLeft());
-    std::shared_ptr<algebra::Join> leftJoin_ptr = std::dynamic_pointer_cast<algebra::Join>(join_ptr -> getLeft());
-    std::shared_ptr<algebra::Table> rightTable_ptr = std::dynamic_pointer_cast<algebra::Table>(join_ptr -> getRight());
-    std::shared_ptr<algebra::Join> rightJoin_ptr = std::dynamic_pointer_cast<algebra::Join>(join_ptr -> getRight());
-    if (leftTable_ptr && rightTable_ptr) {
-        //std::cout << "Get here" << std::endl;
-        leftStream = std::make_shared<CSVIterator>(leftTable_ptr);
-        rightStream = std::make_shared<CSVIterator>(rightTable_ptr);
-        if (join_ptr -> getCondition()) {
-            getJoinColumns(leftTable_ptr, rightTable_ptr);
-            if (join_ptr -> getJoinType() == "LEFT") {
-                setTableMap(rightStream, rightCol_ptr);
-            } else {
-                setTableMap(leftStream, leftCol_ptr);
-            }
+#include "AlgebraTree.h"
+#include "IteratorBuilder.h"
+void JoinIterator::init(const std::shared_ptr<algebra::Join> &join_ptr) {
+    std::shared_ptr<algebra::Relation> left = join_ptr -> getLeft();
+    std::shared_ptr<algebra::Relation> right = join_ptr -> getRight();
+    leftStream = IteratorBuilder::build(left);
+    rightStream = IteratorBuilder::build(right);
+    if (join_ptr -> getCondition()) {
+        getJoinColumns(left, right);
+        if (join_ptr -> getJoinType() == "LEFT") {
+            setTableMap(rightStream, rightCol_ptr);
+        } else {
+            setTableMap(leftStream, leftCol_ptr);
         }
-    } else {
-        std::cout << "More than two joins is not supported yet!" << std::endl;
     }
 }
 
-void JoinIterator::getJoinColumns(const std::shared_ptr<algebra::Table>& leftT_ptr, const std::shared_ptr<algebra::Table>& rightT_ptr) {
+JoinIterator::JoinIterator(const std::shared_ptr<algebra::Join>& join_ptr) : join_ptr(join_ptr) {
+    init(join_ptr);
+}
+
+void JoinIterator::getJoinColumns(const std::shared_ptr<algebra::Relation>& left, const std::shared_ptr<algebra::Relation>& right) {
     //find out the conditioned cols of the left table
     const std::shared_ptr<algebra::BoolBinaryExpr>& condition = join_ptr -> getCondition();
     const std::shared_ptr<algebra::Column>& leftCol = std::dynamic_pointer_cast<algebra::Column>(condition -> getLeft());
     const std::shared_ptr<algebra::Column>& rightCol = std::dynamic_pointer_cast<algebra::Column>(condition -> getRight());
     if (leftCol && rightCol) {
-        if (leftCol -> getTableName() == leftT_ptr -> getName()) {
+        if (left -> isInTables(leftCol -> getTableName())) {
             this -> leftCol_ptr = leftCol;
             this -> rightCol_ptr = rightCol;
         } else {

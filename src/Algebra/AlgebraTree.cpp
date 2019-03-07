@@ -19,9 +19,6 @@
 #include "Min.h"
 #include "Max.h"
 #include "Trees.h"
-void algebra::AlgebraTree::getType() {
-    std::cout << "This is an algebraTree." << std::endl;
-}
 
 algebra::AlgebraTree::AlgebraTree(queryparser::QueryParser::Select_stmtContext* tree) {
     if (tree -> group_by()) {
@@ -31,6 +28,8 @@ algebra::AlgebraTree::AlgebraTree(queryparser::QueryParser::Select_stmtContext* 
     findProj(tree);
     findFilter(tree);
     findGroupBy(tree);
+    type = "AlgebraTree";
+    setSchema();
 }
 
 bool algebra::AlgebraTree::isSupportedFunction(const std::string& name) {
@@ -58,7 +57,7 @@ std::shared_ptr<algebra::Relation> algebra::AlgebraTree::findRelation(queryparse
         if (relat -> AS()) {
             std::string alias = relat -> alias() -> Name() -> getText();
             join_ptr -> setAlias(alias);
-            Schema::addTableAlias(alias, "any");
+            Schema::addTableAlias(alias, join_ptr -> getTables());
         }
         if (relat -> join_condition()) {
             join_ptr -> setCondition(std::dynamic_pointer_cast<algebra::BoolBinaryExpr>(findExpr(relat -> join_condition() -> expr())));
@@ -72,7 +71,7 @@ std::shared_ptr<algebra::Relation> algebra::AlgebraTree::findRelation(queryparse
         if (relat -> AS()) {
             std::string alias = relat -> alias() -> Name() -> getText();
             algebraTree -> setAlias(alias);
-            Schema::addTableAlias(alias, "any");
+            Schema::addTableAlias(alias, algebraTree -> getTables());
         }
         return algebraTree;
     } else {
@@ -160,10 +159,7 @@ std::shared_ptr<algebra::Expression> algebra::AlgebraTree::findColumn(queryparse
     if (column -> table()) {
         tableName = column -> table() -> Name() -> getText();
         if (Schema::isNameTableAlias(tableName)) {
-            tableName = Schema::getTableNameFromAlias(tableName);
-            if (tableName == "any") {
-                tableName = Schema::findTableName(colName);
-            }
+            tableName = Schema::getTableNameFromAlias(tableName, colName);
         }
     } else {
         tableName = Schema::findTableName(colName);
@@ -312,132 +308,9 @@ void algebra::AlgebraTree::findGroupBy(queryparser::QueryParser::Select_stmtCont
     */
 }
 
-/*
-algebra::Filter algebra::AlgebraTree::findJoinCondition(queryparser::QueryParser::Join_conditionContext* JoinConContext) {
-    queryparser::QueryParser::ExprContext* expr = JoinConContext -> expr();
-    queryparser::QueryParser::ColumnContext* column = expr -> expr(0) -> column();
-    std::stringstream ss;
-    ss << column -> table() -> Name() -> getText();
-    ss << ".";
-    ss << column -> Name() -> getText();
-    std::string leftOp = ss.str();
-    
-    column = expr -> expr(1) -> column();
-    ss.str(std::string());
-    ss << column -> table() -> Name() -> getText();
-    ss << ".";
-    ss << column -> Name() -> getText();
-    std::string rightOp = ss.str();
-    
-    std::string oper = findFilterOper(expr -> compare_operator());
-    
-    bool condition = true;
-    Filter leaf(leftOp, oper, rightOp, condition);
-    return leaf;
+void algebra::AlgebraTree::setSchema() {
+    name = "AlgebraTree_" + relation_ptr -> getName();
+    columns = relation_ptr -> getColumns();
+    columnTypes = relation_ptr -> getColumnTypes();
+    tables = relation_ptr -> getTables();
 }
-
-
-std::string algebra::AlgebraTree::findFilterOper(queryparser::QueryParser::Compare_operatorContext* operContext) {
-    std::string oper = "";
-    if (operContext -> GTEQ()) {
-        oper = operContext -> GTEQ() -> getText();
-    } else if (operContext -> NEQ()) {
-        oper = operContext -> NEQ() -> getText();
-    } else if (operContext -> EQ()) {
-        oper = operContext -> EQ() -> getText();
-    } else if (operContext -> LTEQ()) {
-        oper = operContext -> LTEQ() -> getText();
-    } else if (operContext -> LT()) {
-        oper = operContext -> LT() -> getText();
-    } else if (operContext -> GT()) {
-        oper = operContext -> GT() -> getText();
-    } else if (operContext -> IS()) {
-        oper = operContext -> IS() -> getText();
-    }
-    return oper;
-}
-
- std::shared_ptr<algebra::Filter> algebra::AlgebraTree::findFilter(queryparser::QueryParser::ExprContext *expr) {
- std::shared_ptr<algebra::Filter> root = std::make_shared<algebra::Filter>();
- if (expr -> AND()) {
- //cout << "Get And or OR" << endl;
- root -> setLeft(findFilter(expr -> expr(0)));
- root -> setRight(findFilter(expr -> expr(1)));
- if (expr -> AND()) {
- //cout << "Get AND" << endl;
- root -> setLogic("AND");
- } else {
- //cout << "Get OR" << endl;
- root -> setLogic("OR");
- }
- } else {
- //cout << "Get Leaf" << endl;
- root = findSubFilter(expr);
- }
- return root;
- }
- 
- std::shared_ptr<algebra::Filter> algebra::AlgebraTree::findSubFilter(queryparser::QueryParser::ExprContext* expr) {
- std::string leftOp = findLeftOp(expr -> expr(0) -> column());
- std::string oper = findFilterOper(expr -> compare_operator());
- std::string rightOp = findRightOp(expr -> expr(1));
- bool condition = expr -> expr(1) -> column();
- std::shared_ptr<algebra::Filter> leaf = std::make_shared<algebra::Filter>(leftOp, oper, rightOp, condition, *this -> relation_ptr);
- return leaf;
- }
- 
- std::string algebra::AlgebraTree:: findLeftOp(queryparser::QueryParser::ColumnContext* columnContext) {
- std::stringstream ss;
- if (columnContext -> table()) {
- ss << columnContext -> table() -> Name() -> getText();
- ss << "." << columnContext -> Name() -> getText();
- } else {
- ss << columnContext -> Name() -> getText();
- }
- return  schema.findMatchedName(ss.str());
- }
- 
- std::string algebra::AlgebraTree::findRightOp(queryparser::QueryParser::ExprContext* exprContext) {
- if (exprContext -> column()) {
- return findLeftOp(exprContext -> column());
- } else {
- std::string value;
- queryparser::QueryParser::Literal_valueContext* valueContext = exprContext -> literal_value();
- if (valueContext -> NUMERIC_LITERAL()) {
- value = valueContext -> NUMERIC_LITERAL() -> getText();
- } else if (valueContext -> STRING_LITERAL()) {
- value = valueContext -> STRING_LITERAL() -> getText();
- value = value.substr(1, value.length() - 2);
- }
- return value;
- }
- }
- 
- void algebra::AlgebraTree::findProj(queryparser::QueryParser::Select_stmtContext *tree) {
- queryparser::QueryParser::ColumnsContext* columnsContext = tree -> columns();
- std::vector<queryparser::QueryParser::ColumnContext *> columnContexts = columnsContext -> column();
- std::vector<std::string> columns;
- size_t num = columnContexts.size();
- std::string colText;
- for (size_t i = 0; i != num; i++) {
- colText = columnContexts[i] -> getText();
- if (colText.find('*') != std::string::npos) {
- if (colText.find('.') == std::string::npos) {//do not have table name
- for (std::string x : relation_ptr -> getColumns()) {
- columns.push_back(schema.findMatchedName(x));
- }
- } else {
- std::string tableName = Utilities::split(colText, '.')[0];
- for (auto x : schema.getColumns().at(tableName)) {
- columns.push_back(schema.findMatchedName(x));
- }
- }
- } else {
- columns.push_back(findLeftOp(columnContexts[i]));
- }
- }
- //columns should be copied to columns, so should exist even goes out of the current scope
- proj.setColumns(columns);
- proj.setRelation(*relation_ptr);
- }
-*/

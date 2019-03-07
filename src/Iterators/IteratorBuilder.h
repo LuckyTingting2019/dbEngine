@@ -22,7 +22,8 @@
 
 class IteratorBuilder {
 public:
-    static std::shared_ptr<Iterator> build(const std::shared_ptr<algebra::AlgebraTree>& algebraTree);
+    static std::shared_ptr<Iterator> build(const std::shared_ptr<algebra::Relation>& relat_ptr);
+    static std::shared_ptr<ProjIterator> buildAlgebraTreeIterator(const std::shared_ptr<algebra::AlgebraTree>& algebraTree);
 };
 
 #endif /* IteratorBuilder_h */

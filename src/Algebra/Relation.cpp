@@ -24,6 +24,18 @@ const std::vector<algebra::Column>& algebra::Relation::getColumns() const {
     return columns;
 }
 
+const std::unordered_set<std::string>& algebra::Relation::getTables() const {
+    return tables;
+}
+
+bool algebra::Relation::addTable(const std::string &name) {
+    return tables.insert(name).second;
+}
+
+bool algebra::Relation::isInTables(const std::string &name) {
+    return tables.find(name) != tables.end();
+}
+
 void algebra::Relation::setName(const std::string& name) {
     this -> name = name;
 }
@@ -41,6 +53,6 @@ void algebra::Relation::setColumns(const std::vector<algebra::Column>& columns) 
     this -> columns = columns;
 }
 
-void algebra::Relation::getType() {
-    std::cout << "This is a relation." << std::endl;
+std::string algebra::Relation::getType() {
+    return type;
 }

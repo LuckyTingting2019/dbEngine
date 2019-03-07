@@ -41,8 +41,9 @@ protected:
     
     
     void setTableMap(const std::shared_ptr<Iterator>& stream, const std::shared_ptr<algebra::Column>& col_ptr);
-    void getJoinColumns(const std::shared_ptr<algebra::Table>& leftT_ptr, const std::shared_ptr<algebra::Table>& rightT_ptr);
+    void getJoinColumns(const std::shared_ptr<algebra::Relation>& left, const std::shared_ptr<algebra::Relation>& right);
     virtual algebra::Row mergeRows(const algebra::Row& left, const algebra::Row& right);
     algebra::Row getEmptyRow(const algebra::Row& row, const std::string& colFullName, const std::string& colValue);
+    void init(const std::shared_ptr<algebra::Join>& join_ptr);
 };
 #endif /* JoinIterator_h */

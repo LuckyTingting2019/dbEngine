@@ -12,7 +12,7 @@
 bool Schema::isNaturalJoin = false;
 std::unordered_map<std::string, std::unordered_map<std::string, std::string>> Schema::tables_colType;
 std::unordered_map<std::string, std::vector<algebra::Column>> Schema::tables_columns;
-std::unordered_map<std::string, std::string> Schema::tables_alias;
+std::unordered_map<std::string, std::unordered_set<std::string>> Schema::tables_alias;
 std::vector<std::string> Schema::tables;
 std::unordered_map<std::string, std::shared_ptr<algebra::Expression>> Schema::expr_alias;
 bool Schema::hasDistinct = false;
@@ -36,7 +36,9 @@ void Schema::addTable(const algebra::Table &table) {
     
     //setup alias
     if (table.getAlias() != "") {
-        Schema::tables_alias[table.getAlias()] = table.getName();
+        std::unordered_set<std::string> tmp;
+        tmp.insert(table.getName());
+        Schema::tables_alias[table.getAlias()] = tmp;
     }
 }
 
@@ -59,7 +61,7 @@ const std::unordered_map<std::string, std::unordered_map<std::string, std::strin
     return Schema::tables_colType;
 }
 
-const std::unordered_map<std::string, std::string>& Schema::getTablesAlias() {
+const std::unordered_map<std::string, std::unordered_set<std::string>>& Schema::getTablesAlias() {
     return Schema::tables_alias;
 }
 
@@ -67,15 +69,44 @@ bool Schema::isNameTableAlias(const std::string& name) {
     return Schema::tables_alias.find(name) != Schema::tables_alias.end();
 }
 
-std::string Schema::getTableNameFromAlias(const std::string& alias) {
-    return Schema::tables_alias.at(alias);
+std::string Schema::getTableNameFromAlias(const std::string &alias) {
+    std::string tableName;
+    if (Schema::tables_alias.at(alias).size() != 1) {
+        throw "More than one tables, needs column name to find out the table.";
+    } else {
+        for (auto x : tables_alias.at(alias)) {
+            tableName = x;
+        }
+    }
+    return tableName;
+}
+
+std::string Schema::getTableNameFromAlias(const std::string& alias, const std::string& colName) {
+    std::string tableName;
+    for (auto table : Schema::tables_alias.at(alias)) {
+        if (Schema::tables_colType.at(table).find(colName) != Schema::tables_colType.at(table).end()) {
+            tableName = table;
+        }
+    }
+    return tableName;
 }
 
 bool Schema::addTableAlias(const std::string& alias, const std::string& tableName) {
     if (isNameTableAlias(alias)) {
-        return false;
+        return Schema::tables_alias.at(alias).insert(tableName).second;
     } else {
-        Schema::tables_alias[alias] = tableName;
+        std::unordered_set<std::string> tmp;
+        tmp.insert(tableName);
+        Schema::tables_alias[alias] = tmp;
+        return true;
+    }
+}
+
+bool Schema::addTableAlias(const std::string &alias, const std::unordered_set<std::string>& set) {
+    if (isNameTableAlias(alias)) {
+        throw "More than one relation with the same alias.";
+    } else {
+        tables_alias[alias] = set;
         return true;
     }
 }
@@ -168,6 +199,8 @@ void Schema::reset() {
     Schema::tables.clear();
     Schema::tables_colType.clear();
     Schema::tables_columns.clear();
+    Schema::expr_alias.clear();
+    Schema::tables_alias.clear();
 }
 
 void Schema::updateToNaturalSchema() {
