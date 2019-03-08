@@ -1,6 +1,6 @@
 # dbEngine
 
-This is a database engine that parses, optimizes, and excutes SQL commands. It supports select, where, join(inner, left, right, natural), functions(AVG, SUM, COUNT, MAX, MIN), group by, expressions, alias, subquery and Distinct. The following queries are tested. Also implemented push down conjunctive predicates optimization
+This is a database engine that parses, optimizes, and excutes SQL commands. It supports select, where, join(inner, left, right, natural), functions(AVG, SUM, COUNT, MAX, MIN), group by, expressions, alias, subquery and Distinct. Also implemented push down conjunctive predicates optimization. The following queries are tested. 
 
 	1. Simple SELECT query
 SELECT SID, Score.CID, Score.Score<br/>
