@@ -22,6 +22,9 @@ namespace algebra {
         virtual std::string findValue(const algebra::Row& row) = 0;
         virtual std::string findType() = 0;
         virtual std::string findName() = 0;
+        virtual std::unordered_set<std::string> getReferencedTables() = 0;
+        //check if only one table is involved in the expr, for function, always return false, since functions cannot push down due to the aggregation nature
+        virtual bool isSimple() = 0;
         
         void setAlias(const std::string& alias);
         const std::string& getAlias() const;

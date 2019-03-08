@@ -29,7 +29,8 @@ namespace algebra {
         BoolBinaryExpr(const std::shared_ptr<algebra::Expression>& left, const std::string& oper, const std::shared_ptr<algebra::Expression>& right);
         
         bool evaluate(const algebra::Row& row);
-        
+        bool isSinglePredicate();
+        bool isConjunctiveAndSimple();
 
     private:
         const std::string type = "BoolBinaryExpr";

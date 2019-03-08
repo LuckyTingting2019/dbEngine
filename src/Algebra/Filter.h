@@ -29,8 +29,15 @@ namespace algebra {
         
         bool evaluate(Row& row);
         
+        std::unordered_map<std::string, std::shared_ptr<algebra::Filter>> partition();
+        
+        void AND(std::shared_ptr<algebra::Filter>& filter);
+        
     private:
-        std::shared_ptr<algebra::BoolBinaryExpr> expr;        
+        std::shared_ptr<algebra::BoolBinaryExpr> expr;
+        
+        std::shared_ptr<algebra::Filter> makeFilter(const std::vector<std::shared_ptr<algebra::BoolBinaryExpr>>& list);
+        void getLists(const std::shared_ptr<algebra::BoolBinaryExpr>& expr, std::unordered_map<std::string, std::vector<std::shared_ptr<algebra::BoolBinaryExpr>>>& lists);
     };
 
 } //namespace algebra

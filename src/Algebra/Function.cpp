@@ -30,6 +30,17 @@ std::string algebra::Function::findName() {
     return type + "(" + expr -> findName() + ")";
 }
 
+std::unordered_set<std::string> algebra::Function::getReferencedTables() {
+    std::unordered_set<std::string> res;
+    res.insert(col_ptr -> getTableName());
+    return res;
+}
+
+bool algebra::Function::isSimple() {
+    return false;
+    //return col_ptr -> isSimple();
+}
+
 algebra::Function::Function(const std::string& name, const std::shared_ptr<algebra::Expression>& expr) : name(name), expr(expr) {
     //std::cout <<
     if (typeid(*expr).name() == typeid(algebra::Distinct).name()) {

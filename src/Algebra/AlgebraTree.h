@@ -25,14 +25,25 @@ namespace algebra {
     
     class AlgebraTree : public Relation {
     public:
+        AlgebraTree();
         AlgebraTree(queryparser::QueryParser::Select_stmtContext* tree);
+        void setProj(const std::shared_ptr<algebra::Projection>& proj_ptr);
+        void setRelat(const std::shared_ptr<algebra::Relation>& relation_ptr);
+        void setFilter(const std::shared_ptr<algebra::Filter>& filter_ptr);
+        void setGroupBy(const std::shared_ptr<algebra::GroupBy>& groupBy_ptr);
         
+        std::shared_ptr<algebra::Projection>& getProj();
+        std::shared_ptr<algebra::Relation>& getRelat();
+        std::shared_ptr<algebra::Filter>& getFilter();
+        std::shared_ptr<algebra::GroupBy>& getGroupBy();
+
+    
+    private:
         std::shared_ptr<algebra::Projection> proj_ptr; //for ProjIterator
         std::shared_ptr<algebra::Relation> relation_ptr; //for CSVIterator/JoinIterator
         std::shared_ptr<algebra::Filter> filter_ptr;  //for FilterIterator
         std::shared_ptr<algebra::GroupBy> groupBy_ptr; //for GroupByIterator
-    
-    private:
+        
         const std::unordered_set<std::string> supFuncs = {"SUM", "AVG", "COUNT", "MAX", "MIN"};
         bool hasGroupBy;
         bool isSupportedFunction(const std::string& name);

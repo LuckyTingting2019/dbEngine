@@ -17,9 +17,10 @@ namespace algebra {
     class BinaryExpr : public Expression {
     public:
         std::string getType() override;
+        std::unordered_set<std::string> getReferencedTables() override;
+        bool isSimple() override;
         
         BinaryExpr(const std::shared_ptr<algebra::Expression>& left, const std::string& oper, const std::shared_ptr<algebra::Expression>& right);
-        
         
         const std::shared_ptr<algebra::Expression>& getLeft() const;
         const std::shared_ptr<algebra::Expression>& getRight() const;

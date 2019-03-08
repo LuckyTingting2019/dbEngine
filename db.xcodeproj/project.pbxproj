@@ -200,6 +200,10 @@
 		D6D0E5272228CAF4008BC8BA /* WritableToken.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E4912228CAF3008BC8BA /* WritableToken.cpp */; };
 		D6D0E533222DF184008BC8BA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E532222DF184008BC8BA /* main.cpp */; };
 		D6D0E536222E00FF008BC8BA /* Distinct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E534222E00FF008BC8BA /* Distinct.cpp */; };
+		D6D0E53A2231947E008BC8BA /* Rule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E5382231947E008BC8BA /* Rule.cpp */; };
+		D6D0E540223196EA008BC8BA /* PushDownPredicates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E53E223196EA008BC8BA /* PushDownPredicates.cpp */; };
+		D6D0E543223196FF008BC8BA /* PushDownConjunctivePredicates.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E541223196FF008BC8BA /* PushDownConjunctivePredicates.cpp */; };
+		D6D0E54622319714008BC8BA /* QueryOptimizer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D0E54422319714008BC8BA /* QueryOptimizer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -625,6 +629,14 @@
 		D6D0E532222DF184008BC8BA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		D6D0E534222E00FF008BC8BA /* Distinct.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Distinct.cpp; sourceTree = "<group>"; };
 		D6D0E535222E00FF008BC8BA /* Distinct.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Distinct.hpp; sourceTree = "<group>"; };
+		D6D0E5382231947E008BC8BA /* Rule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Rule.cpp; sourceTree = "<group>"; };
+		D6D0E5392231947E008BC8BA /* Rule.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Rule.hpp; sourceTree = "<group>"; };
+		D6D0E53E223196EA008BC8BA /* PushDownPredicates.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PushDownPredicates.cpp; sourceTree = "<group>"; };
+		D6D0E53F223196EA008BC8BA /* PushDownPredicates.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PushDownPredicates.hpp; sourceTree = "<group>"; };
+		D6D0E541223196FF008BC8BA /* PushDownConjunctivePredicates.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PushDownConjunctivePredicates.cpp; sourceTree = "<group>"; };
+		D6D0E542223196FF008BC8BA /* PushDownConjunctivePredicates.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PushDownConjunctivePredicates.hpp; sourceTree = "<group>"; };
+		D6D0E54422319714008BC8BA /* QueryOptimizer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = QueryOptimizer.cpp; sourceTree = "<group>"; };
+		D6D0E54522319714008BC8BA /* QueryOptimizer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QueryOptimizer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -660,6 +672,7 @@
 		D6D0DA9922277CF5008BC8BA /* src */ = {
 			isa = PBXGroup;
 			children = (
+				D6D0E537223193D6008BC8BA /* Optimize */,
 				D6D0DAA72227802F008BC8BA /* Utilities */,
 				D6D0DAA62227800F008BC8BA /* Schema */,
 				D6D0DAA522277FBC008BC8BA /* Grammar */,
@@ -707,9 +720,9 @@
 			children = (
 				D6D0DAE4222780C4008BC8BA /* AlgebraTree.cpp */,
 				D6D0DAD8222780C3008BC8BA /* AlgebraTree.h */,
-				D6D0DADD222780C3008BC8BA /* BinaryExpr.cpp */,
 				D6D0DAED222780C4008BC8BA /* Expression.cpp */,
 				D6D0DAE1222780C4008BC8BA /* Expression.h */,
+				D6D0DADD222780C3008BC8BA /* BinaryExpr.cpp */,
 				D6D0DAEB222780C4008BC8BA /* BinaryExpr.h */,
 				D6D0DAD5222780C3008BC8BA /* BoolBinaryExpr.cpp */,
 				D6D0DACB222780C3008BC8BA /* BoolBinaryExpr.h */,
@@ -729,14 +742,16 @@
 				D6D0DAEF222780C4008BC8BA /* Min.h */,
 				D6D0DAD2222780C3008BC8BA /* Count.cpp */,
 				D6D0DADB222780C3008BC8BA /* Count.h */,
+				D6D0DACA222780C3008BC8BA /* Column.cpp */,
+				D6D0DADF222780C4008BC8BA /* Column.h */,
 				D6D0DAE9222780C4008BC8BA /* LiteralValue.cpp */,
 				D6D0DAEE222780C4008BC8BA /* LiteralValue.h */,
-				D6D0DADC222780C3008BC8BA /* FuncBuilder.cpp */,
-				D6D0DAD6222780C3008BC8BA /* FuncBuilder.h */,
 				D6D0DAE0222780C4008BC8BA /* Projection.cpp */,
 				D6D0DACD222780C3008BC8BA /* Projection.h */,
 				D6D0DAE6222780C4008BC8BA /* Filter.cpp */,
 				D6D0DADA222780C3008BC8BA /* Filter.h */,
+				D6D0DADC222780C3008BC8BA /* FuncBuilder.cpp */,
+				D6D0DAD6222780C3008BC8BA /* FuncBuilder.h */,
 				D6D0DAD1222780C3008BC8BA /* GroupBy.cpp */,
 				D6D0DAE5222780C4008BC8BA /* GroupBy.h */,
 				D6D0DAD7222780C3008BC8BA /* Relation.cpp */,
@@ -745,8 +760,6 @@
 				D6D0DAF2222780C5008BC8BA /* Table.h */,
 				D6D0DAF0222780C4008BC8BA /* Join.cpp */,
 				D6D0DAC9222780C3008BC8BA /* Join.h */,
-				D6D0DACA222780C3008BC8BA /* Column.cpp */,
-				D6D0DADF222780C4008BC8BA /* Column.h */,
 				D6D0DAD4222780C3008BC8BA /* Row.cpp */,
 				D6D0DAE2222780C4008BC8BA /* Row.h */,
 			);
@@ -1198,6 +1211,21 @@
 			path = data;
 			sourceTree = "<group>";
 		};
+		D6D0E537223193D6008BC8BA /* Optimize */ = {
+			isa = PBXGroup;
+			children = (
+				D6D0E5382231947E008BC8BA /* Rule.cpp */,
+				D6D0E5392231947E008BC8BA /* Rule.hpp */,
+				D6D0E53E223196EA008BC8BA /* PushDownPredicates.cpp */,
+				D6D0E53F223196EA008BC8BA /* PushDownPredicates.hpp */,
+				D6D0E541223196FF008BC8BA /* PushDownConjunctivePredicates.cpp */,
+				D6D0E542223196FF008BC8BA /* PushDownConjunctivePredicates.hpp */,
+				D6D0E54422319714008BC8BA /* QueryOptimizer.cpp */,
+				D6D0E54522319714008BC8BA /* QueryOptimizer.hpp */,
+			);
+			path = Optimize;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1272,6 +1300,7 @@
 				D6D0DAF6222780C5008BC8BA /* Min.cpp in Sources */,
 				D6D0E4F02228CAF4008BC8BA /* LexerActionExecutor.cpp in Sources */,
 				D6D0E4FB2228CAF4008BC8BA /* PredictionMode.cpp in Sources */,
+				D6D0E540223196EA008BC8BA /* PushDownPredicates.cpp in Sources */,
 				D6D0E50A2228CAF4008BC8BA /* StarLoopbackState.cpp in Sources */,
 				D6D0E50C2228CAF4008BC8BA /* AbstractPredicateTransition.cpp in Sources */,
 				D6D0E4AF2228CAF4008BC8BA /* TokenTagToken.cpp in Sources */,
@@ -1349,6 +1378,7 @@
 				D6D0E49A2228CAF4008BC8BA /* XPathLexerErrorListener.cpp in Sources */,
 				D6D0E4D02228CAF4008BC8BA /* Recognizer.cpp in Sources */,
 				D6D0E51E2228CAF4008BC8BA /* DefaultErrorStrategy.cpp in Sources */,
+				D6D0E53A2231947E008BC8BA /* Rule.cpp in Sources */,
 				D6D0E4C72228CAF4008BC8BA /* TokenStreamRewriter.cpp in Sources */,
 				D6D0E5022228CAF4008BC8BA /* ATNDeserializer.cpp in Sources */,
 				D6D0E5172228CAF4008BC8BA /* ContextSensitivityInfo.cpp in Sources */,
@@ -1379,6 +1409,7 @@
 				D6D0DB2B222780D2008BC8BA /* GroupByIterator.cpp in Sources */,
 				D6D0E4C02228CAF4008BC8BA /* DFASerializer.cpp in Sources */,
 				D6D0E4F32228CAF4008BC8BA /* LexerModeAction.cpp in Sources */,
+				D6D0E54622319714008BC8BA /* QueryOptimizer.cpp in Sources */,
 				D6D0E4FD2228CAF4008BC8BA /* ATN.cpp in Sources */,
 				D6D0DAF7222780C5008BC8BA /* GroupBy.cpp in Sources */,
 				D6D0DAF9222780C5008BC8BA /* Row.cpp in Sources */,
@@ -1434,6 +1465,7 @@
 				D6D0DAAD222780A6008BC8BA /* Schema.cpp in Sources */,
 				D6D0DAF3222780C5008BC8BA /* Column.cpp in Sources */,
 				D6D0E533222DF184008BC8BA /* main.cpp in Sources */,
+				D6D0E543223196FF008BC8BA /* PushDownConjunctivePredicates.cpp in Sources */,
 				D6D0E4BA2228CAF4008BC8BA /* UnbufferedTokenStream.cpp in Sources */,
 				D6D0E4A12228CAF4008BC8BA /* XPath.cpp in Sources */,
 				D6D0DAF5222780C5008BC8BA /* Avg.cpp in Sources */,

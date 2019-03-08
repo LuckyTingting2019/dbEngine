@@ -15,6 +15,7 @@
 #include "AlgebraTree.h"
 #include "ProjIterator.h"
 #include "IteratorBuilder.h"
+#include "QueryOptimizer.hpp"
 //#include "MyVisitor.h"
 //#include "Projection.h"
 //#include "CSVIterator.h"
@@ -43,7 +44,8 @@ int main(int , const char **) {
             antlr4::CommonTokenStream tokens(&lexer);
             queryparser::QueryParser parser(&tokens);
             std::shared_ptr<algebra::AlgebraTree> algebraTree = std::make_shared<algebra::AlgebraTree>(parser.select_stmt());
-            std::shared_ptr<ProjIterator> projIterator_ptr = std::dynamic_pointer_cast<ProjIterator>(IteratorBuilder::build(algebraTree));
+            QueryOptimizer optimizer(algebraTree);
+            std::shared_ptr<ProjIterator> projIterator_ptr = std::dynamic_pointer_cast<ProjIterator>(IteratorBuilder::build(optimizer.optimize()));
             if (projIterator_ptr) {
                 projIterator_ptr -> print();
             }

@@ -117,6 +117,16 @@ public interface QueryListener extends ParseTreeListener {
 	 */
 	void exitExpr(QueryParser.ExprContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link QueryParser#distinct}.
+	 * @param ctx the parse tree
+	 */
+	void enterDistinct(QueryParser.DistinctContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QueryParser#distinct}.
+	 * @param ctx the parse tree
+	 */
+	void exitDistinct(QueryParser.DistinctContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QueryParser#mul_div}.
 	 * @param ctx the parse tree
 	 */

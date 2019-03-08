@@ -22,9 +22,9 @@ std::shared_ptr<Iterator> IteratorBuilder::build(const std::shared_ptr<algebra::
 
 std::shared_ptr<ProjIterator> IteratorBuilder::buildAlgebraTreeIterator(const std::shared_ptr<algebra::AlgebraTree> &algebraTree) {
     std::shared_ptr<Iterator> downStream;
-    std::shared_ptr<algebra::Table> table_ptr = std::dynamic_pointer_cast<algebra::Table>(algebraTree -> relation_ptr);
-    std::shared_ptr<algebra::Join> join_ptr = std::dynamic_pointer_cast<algebra::Join>(algebraTree -> relation_ptr);
-    std::shared_ptr<algebra::AlgebraTree> algebraTree_ptr = std::dynamic_pointer_cast<algebra::AlgebraTree>(algebraTree -> relation_ptr);
+    std::shared_ptr<algebra::Table> table_ptr = std::dynamic_pointer_cast<algebra::Table>(algebraTree -> getRelat());
+    std::shared_ptr<algebra::Join> join_ptr = std::dynamic_pointer_cast<algebra::Join>(algebraTree -> getRelat());
+    std::shared_ptr<algebra::AlgebraTree> algebraTree_ptr = std::dynamic_pointer_cast<algebra::AlgebraTree>(algebraTree -> getRelat());
     if (table_ptr) {
         downStream = std::make_shared<CSVIterator>(table_ptr);
         //std::cout << "getCSV" << std::endl;
@@ -35,12 +35,12 @@ std::shared_ptr<ProjIterator> IteratorBuilder::buildAlgebraTreeIterator(const st
     } else {
         throw "Unsupported relation.";
     }
-    if (algebraTree -> filter_ptr) {
-        downStream = std::make_shared<FilterIterator>(algebraTree -> filter_ptr, downStream);
+    if (algebraTree -> getFilter()) {
+        downStream = std::make_shared<FilterIterator>(algebraTree -> getFilter(), downStream);
     }
     //if goes to groupBy iterator, then the row will only contain function cols and cols that are used to run group by
-    if (algebraTree -> groupBy_ptr) {
-        downStream = std::make_shared<GroupByIterator>(algebraTree -> groupBy_ptr, downStream);
+    if (algebraTree -> getGroupBy()) {
+        downStream = std::make_shared<GroupByIterator>(algebraTree -> getGroupBy(), downStream);
     }
-    return std::make_shared<ProjIterator>(algebraTree -> proj_ptr, downStream);
+    return std::make_shared<ProjIterator>(algebraTree -> getProj(), downStream);
 }

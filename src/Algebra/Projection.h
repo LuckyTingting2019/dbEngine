@@ -22,6 +22,7 @@ namespace algebra {
     class Projection {
     public:
         Projection(const std::vector<std::shared_ptr<algebra::Expression>>& columns);
+        Projection(const std::vector<algebra::Column>& columns);
         Projection& operator=(const Projection&);
         
         const std::vector<std::shared_ptr<algebra::Expression>>& getColumns() const;

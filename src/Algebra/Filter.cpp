@@ -27,6 +27,47 @@ bool algebra::Filter::evaluate(algebra::Row& row) {
     return expr -> evaluate(row);
 };
 
+std::unordered_map<std::string, std::shared_ptr<algebra::Filter>> algebra::Filter::partition() {
+    std::unordered_map<std::string, std::shared_ptr<algebra::Filter>> res;
+    if (!expr -> isConjunctiveAndSimple()) {
+        return res;
+    }
+    std::unordered_map<std::string, std::vector<std::shared_ptr<algebra::BoolBinaryExpr>>> lists;
+    getLists(this -> expr, lists);
+    for (auto x : lists) {
+        res[x.first] = makeFilter(x.second);
+    }
+    return res;
+}
+void algebra::Filter::getLists(const std::shared_ptr<algebra::BoolBinaryExpr>& expr, std::unordered_map<std::string, std::vector<std::shared_ptr<algebra::BoolBinaryExpr>>>& lists) {
+    if (expr -> isSinglePredicate()) {
+        std::string tableName = *(expr -> getReferencedTables().begin());
+        if (lists.find(tableName) == lists.end()) {
+            std::vector<std::shared_ptr<algebra::BoolBinaryExpr>> list;
+            lists[tableName] = list;
+        }
+        lists.at(tableName).push_back(expr);
+    } else {
+        getLists(std::dynamic_pointer_cast<algebra::BoolBinaryExpr>(expr -> getLeft()), lists);
+        getLists(std::dynamic_pointer_cast<algebra::BoolBinaryExpr>(expr -> getRight()), lists);
+    }
+}
+std::shared_ptr<algebra::Filter> algebra::Filter::makeFilter(const std::vector<std::shared_ptr<algebra::BoolBinaryExpr>>& list) {
+    std::shared_ptr<algebra::BoolBinaryExpr> res;
+    res = list.at(0);
+    for (int i = 1; i < list.size(); i++) {
+        res = std::make_shared<algebra::BoolBinaryExpr>(res, "AND", list.at(i));
+    }
+    return std::make_shared<algebra::Filter>(res);
+}
+
+
+void algebra::Filter::AND(std::shared_ptr<algebra::Filter>& filter) {
+    if (filter == nullptr || filter -> getExpr() == nullptr) {
+        return;
+    }
+    this -> expr = std::make_shared<algebra::BoolBinaryExpr>(this -> expr, "AND", filter -> getExpr());
+}
 /*
 bool algebra::Filter::evaluate(const std::string& leftValue, const std::string& rightValue) {
     if (oper == "=" || oper == "IS") {

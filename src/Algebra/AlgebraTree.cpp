@@ -20,16 +20,46 @@
 #include "Max.h"
 #include "Trees.h"
 
+void algebra::AlgebraTree::setProj(const std::shared_ptr<algebra::Projection>& proj_ptr) {
+    this -> proj_ptr = proj_ptr;
+}
+void algebra::AlgebraTree::setRelat(const std::shared_ptr<algebra::Relation>& relation_ptr) {
+    this -> relation_ptr = relation_ptr;
+}
+void algebra::AlgebraTree::setFilter(const std::shared_ptr<algebra::Filter>& filter_ptr) {
+    this -> filter_ptr = filter_ptr;
+}
+void algebra::AlgebraTree::setGroupBy(const std::shared_ptr<algebra::GroupBy>& groupBy_ptr) {
+    this -> groupBy_ptr = groupBy_ptr;
+}
+
+std::shared_ptr<algebra::Projection>& algebra::AlgebraTree::getProj() {
+    return this -> proj_ptr;
+}
+std::shared_ptr<algebra::Relation>& algebra::AlgebraTree::getRelat() {
+    return this -> relation_ptr;
+}
+std::shared_ptr<algebra::Filter>& algebra::AlgebraTree::getFilter() {
+    return this -> filter_ptr;
+}
+std::shared_ptr<algebra::GroupBy>& algebra::AlgebraTree::getGroupBy() {
+    return this -> groupBy_ptr;
+}
+
+algebra::AlgebraTree::AlgebraTree() {
+    type = "AlgebraTree";
+}
+
 algebra::AlgebraTree::AlgebraTree(queryparser::QueryParser::Select_stmtContext* tree) {
     if (tree -> group_by()) {
         hasGroupBy = true;
     }
     findRelation(tree);
+    setSchema();
     findProj(tree);
     findFilter(tree);
     findGroupBy(tree);
     type = "AlgebraTree";
-    setSchema();
 }
 
 bool algebra::AlgebraTree::isSupportedFunction(const std::string& name) {
@@ -265,10 +295,8 @@ void algebra::AlgebraTree::findProj(queryparser::QueryParser::Select_stmtContext
                     }
                 }
             } else {
-                for (auto x : Schema::getColumns()) {
-                    for (auto y : x.second) {
-                        columns.push_back(std::make_shared<algebra::Column>(y));
-                    }
+                for (auto x : this -> columns) {
+                    columns.push_back(std::make_shared<algebra::Column>(x));
                 }
             }
         } else {
@@ -309,8 +337,10 @@ void algebra::AlgebraTree::findGroupBy(queryparser::QueryParser::Select_stmtCont
 }
 
 void algebra::AlgebraTree::setSchema() {
-    name = "AlgebraTree_" + relation_ptr -> getName();
-    columns = relation_ptr -> getColumns();
-    columnTypes = relation_ptr -> getColumnTypes();
-    tables = relation_ptr -> getTables();
+    if (relation_ptr) {
+        name = "AlgebraTree_" + relation_ptr -> getName();
+        columns = relation_ptr -> getColumns();
+        columnTypes = relation_ptr -> getColumnTypes();
+        tables = relation_ptr -> getTables();
+    }
 }

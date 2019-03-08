@@ -23,6 +23,8 @@ namespace algebra {
         std::string findValue(const algebra::Row& row) override;
         std::string findType() override;
         std::string findName() override;
+        std::unordered_set<std::string> getReferencedTables() override;
+        bool isSimple() override;
         
         Distinct(const std::vector<std::shared_ptr<algebra::Column>>& cols);
         

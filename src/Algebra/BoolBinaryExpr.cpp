@@ -92,3 +92,28 @@ int algebra::BoolBinaryExpr::compare(const std::string& left, const std::string&
 bool algebra::BoolBinaryExpr::isLogicalOper() {
     return this -> oper == "AND" || this -> oper == "OR";
 }
+
+bool algebra::BoolBinaryExpr::isSinglePredicate() {
+    return !isLogicalOper();
+}
+
+bool algebra::BoolBinaryExpr::isConjunctiveAndSimple() {
+    if (oper == "OR") {
+        return false;
+    } else if (oper == "AND") {
+        bool res = false;
+        if (left -> getType() == "BoolBinaryExpr") {
+            res = std::dynamic_pointer_cast<algebra::BoolBinaryExpr>(left) -> isConjunctiveAndSimple();
+        } else {
+            res = left -> isSimple();
+        }
+        if (right -> getType() == "BoolBinaryExpr") {
+            res = res && std::dynamic_pointer_cast<algebra::BoolBinaryExpr>(right) -> isConjunctiveAndSimple();
+        } else {
+            res = res && right -> isSimple();
+        }
+        return res;
+    } else {
+        return this -> isSimple();
+    }
+}

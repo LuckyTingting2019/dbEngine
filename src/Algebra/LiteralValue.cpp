@@ -22,6 +22,15 @@ std::string algebra::LiteralValue::findName() {
     return this -> value;
 }
 
+std::unordered_set<std::string> algebra::LiteralValue::getReferencedTables() {
+    std::unordered_set<std::string> res;
+    return res;
+}
+
+bool algebra::LiteralValue::isSimple() {
+    return true;
+}
+
 algebra::LiteralValue::LiteralValue(const std::string& value, const std::string& fieldType) : value(value), fieldType(fieldType) {}
 
 void algebra::LiteralValue::setFieldType(const std::string& fieldType) {

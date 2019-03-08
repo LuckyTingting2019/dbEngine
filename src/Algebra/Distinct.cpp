@@ -50,6 +50,18 @@ std::string algebra::Distinct::findName() {
     return name;
 }
 
+std::unordered_set<std::string> algebra::Distinct::getReferencedTables() {
+    std::unordered_set<std::string> res;
+    for (auto x : cols) {
+        res.insert(x -> getTableName());
+    }
+    return res;
+}
+
+bool algebra::Distinct::isSimple() {
+    return getReferencedTables().size() <= 1;
+}
+
 algebra::Distinct::Distinct(const std::vector<std::shared_ptr<algebra::Column>>& cols) : cols(cols) {}
 
 const std::vector<std::shared_ptr<algebra::Column>>& algebra::Distinct::getCols() const {

@@ -28,6 +28,16 @@ std::string algebra::Column::findName() {
     return Schema::findMatchedName(tableName, columnName);
 }
 
+std::unordered_set<std::string> algebra::Column::getReferencedTables() {
+    std::unordered_set<std::string> res;
+    res.insert(tableName);
+    return res;
+}
+
+bool algebra::Column::isSimple() {
+    return true;
+}
+
 //algebra::Column::Column(const std::string& columnName) : columnName(columnName) {}
 
 algebra::Column::Column(const std::string& tableName, const std::string& columnName)
