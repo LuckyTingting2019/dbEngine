@@ -8,6 +8,7 @@
 
 #include "Function.h"
 #include "Distinct.hpp"
+#include "sstream"
 std::string algebra::Function::getType() {
     return this -> type;
 }

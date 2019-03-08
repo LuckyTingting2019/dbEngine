@@ -7,6 +7,7 @@
 //
 
 #include "Projection.h"
+#include "sstream"
 algebra::Projection::Projection(const std::vector<std::shared_ptr<algebra::Expression>>& columns) : columns(columns) {}
 
 algebra::Projection::Projection(const std::vector<algebra::Column>& cols) {
@@ -29,6 +30,17 @@ const std::vector<std::shared_ptr<algebra::Expression>>& algebra::Projection::ge
 
 void algebra::Projection::setColumns(const std::vector<std::shared_ptr<algebra::Expression>>& columns) {
     this -> columns = columns;
+}
+
+std::string algebra::Projection::toString() {
+    std::stringstream ss;
+    for (auto x : columns) {
+        ss << x -> toString() << ", ";
+    }
+    std::string res = ss.str();
+    res.pop_back();
+    res.pop_back();
+    return res;
 }
 
 

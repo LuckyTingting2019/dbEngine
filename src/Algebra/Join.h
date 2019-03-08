@@ -19,6 +19,8 @@ namespace algebra {
     
     class Join : public Relation {
     public:
+        std::string toString() override;
+        
         Join(const std::shared_ptr<algebra::Relation> left, std::shared_ptr<algebra::Relation> right, const std::string& joinType);
         
         const std::shared_ptr<algebra::Relation>& getLeft() const;

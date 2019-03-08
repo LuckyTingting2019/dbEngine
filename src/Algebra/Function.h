@@ -24,6 +24,7 @@ namespace algebra {
         std::string findName() override;
         std::unordered_set<std::string> getReferencedTables() override;
         bool isSimple() override;
+        //std::string toString() override;
         
         Function(const std::string& name, const std::shared_ptr<algebra::Expression>& expr);
         

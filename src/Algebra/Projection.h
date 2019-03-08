@@ -27,6 +27,7 @@ namespace algebra {
         
         const std::vector<std::shared_ptr<algebra::Expression>>& getColumns() const;
         void setColumns(const std::vector<std::shared_ptr<algebra::Expression>>& columns);
+        std::string toString();
 
     private:
         //member of columns can be column or function or Numeric Binary Expression

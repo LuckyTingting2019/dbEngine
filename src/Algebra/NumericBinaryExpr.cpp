@@ -71,9 +71,9 @@ std::string algebra::NumericBinaryExpr::findType() {
     return type;
 }
 
-std::string algebra::NumericBinaryExpr::findName() {
-    return left -> findName() + " " + oper + " " + right -> findName();
-}
+//std::string algebra::NumericBinaryExpr::findName() {
+ //   return left -> findName() + " " + oper + " " + right -> findName();
+//}
 
 algebra::NumericBinaryExpr::NumericBinaryExpr(const std::shared_ptr<algebra::Expression>& left, const std::string& oper, const std::shared_ptr<algebra::Expression>& right) : algebra::BinaryExpr(left, oper, right) {}
 

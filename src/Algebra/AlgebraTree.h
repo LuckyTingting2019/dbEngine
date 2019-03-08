@@ -36,6 +36,7 @@ namespace algebra {
         std::shared_ptr<algebra::Relation>& getRelat();
         std::shared_ptr<algebra::Filter>& getFilter();
         std::shared_ptr<algebra::GroupBy>& getGroupBy();
+        std::string toString() override;
 
     
     private:

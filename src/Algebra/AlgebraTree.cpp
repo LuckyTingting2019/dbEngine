@@ -344,3 +344,25 @@ void algebra::AlgebraTree::setSchema() {
         tables = relation_ptr -> getTables();
     }
 }
+
+std::string algebra::AlgebraTree::toString() {
+    std::stringstream ss;
+    ss << "SELECT ";
+    ss << proj_ptr -> toString();
+    ss << "\nFROM ";
+    if (relation_ptr -> getType() == "AlgebraTree") {
+        ss << "\n\t(" << relation_ptr -> toString() << ";)";
+    } else {
+        ss << relation_ptr -> toString();
+    }
+    if (filter_ptr) {
+        ss << "\nWHERE ";
+        ss << filter_ptr -> toString();
+    }
+    if (groupBy_ptr) {
+        ss << "\nGROUP BY ";
+        ss << groupBy_ptr -> toString();
+    }
+    ss << ";";
+    return ss.str();
+}

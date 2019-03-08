@@ -18,3 +18,7 @@ const std::string& algebra::Expression::getAlias() const {
 void algebra::Expression::setAlias(const std::string& alias) {
     this -> alias = alias;
 }
+
+std::string algebra::Expression::toString() {
+    return findName();
+}

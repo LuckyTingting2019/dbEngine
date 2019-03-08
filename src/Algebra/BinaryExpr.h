@@ -19,6 +19,8 @@ namespace algebra {
         std::string getType() override;
         std::unordered_set<std::string> getReferencedTables() override;
         bool isSimple() override;
+        std::string findName() override;
+        //std::string toString() override;
         
         BinaryExpr(const std::shared_ptr<algebra::Expression>& left, const std::string& oper, const std::shared_ptr<algebra::Expression>& right);
         

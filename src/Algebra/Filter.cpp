@@ -68,6 +68,10 @@ void algebra::Filter::AND(std::shared_ptr<algebra::Filter>& filter) {
     }
     this -> expr = std::make_shared<algebra::BoolBinaryExpr>(this -> expr, "AND", filter -> getExpr());
 }
+
+std::string algebra::Filter::toString() {
+    return expr -> toString();
+}
 /*
 bool algebra::Filter::evaluate(const std::string& leftValue, const std::string& rightValue) {
     if (oper == "=" || oper == "IS") {

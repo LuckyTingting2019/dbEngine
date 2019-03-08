@@ -31,6 +31,7 @@ namespace algebra {
         void setColumnTypes(const std::unordered_map<std::string, std::string>& columnTypes);
         void setColumns(const std::vector<algebra::Column>& columns);
         void setAlias(const std::string& alias);
+        virtual std::string toString() = 0;
         
     protected:
         std::string name;

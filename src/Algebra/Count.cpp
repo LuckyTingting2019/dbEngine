@@ -15,6 +15,9 @@ algebra::Count::Count(const std::string& name, const std::shared_ptr<algebra::Ex
 }
 
 void algebra::Count::update(const algebra::Row& row) {
+    if (row.get(col_ptr -> findName()) == "NULL") {
+        return;
+    }
     count++;
 }
 

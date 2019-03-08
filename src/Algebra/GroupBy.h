@@ -26,6 +26,8 @@ namespace algebra {
         void addColumn(const std::shared_ptr<algebra::Expression>& col);
         void addFunc(const std::shared_ptr<algebra::Function>& func);
         
+        std::string toString();
+        
         
     private:
         std::vector<std::shared_ptr<algebra::Expression>> columns;

@@ -21,6 +21,8 @@ namespace algebra {
 
     class Table : public Relation {
     public:
+        std::string toString() override;
+        
         Table(){};
         Table(const std::string& name);
         Table& operator=(const Table&);

@@ -23,7 +23,7 @@ namespace algebra {
         std::string getType() override;
         std::string findValue(const algebra::Row& row) override;
         std::string findType() override;
-        std::string findName() override;
+        //std::string findName() override;
         
         
         BoolBinaryExpr(const std::shared_ptr<algebra::Expression>& left, const std::string& oper, const std::shared_ptr<algebra::Expression>& right);

@@ -7,6 +7,24 @@
 //
 
 #include "Join.h"
+std::string algebra::Join::toString() {
+    std::stringstream ss;
+    if (left -> getType() == "AlgebraTree") {
+        ss << "\n\n(" << left -> toString() << ")\n";
+    } else {
+        ss << left -> toString();
+    }
+    ss << "\n" << joinType << " JOIN ";
+    if (right -> getType() == "AlgebraTree") {
+        ss << "\n\n(" << right -> toString() << ")\n";
+    } else {
+        ss << right -> toString();
+    }
+    if (joinCondition) {
+        ss << "\nON " << joinCondition -> toString();
+    }
+    return ss.str();
+}
 
 algebra::Join::Join(const std::shared_ptr<algebra::Relation> left, const std::shared_ptr<algebra::Relation> right, const std::string& joinType) : left(left), right(right), joinType(joinType) {
     type = "Join";

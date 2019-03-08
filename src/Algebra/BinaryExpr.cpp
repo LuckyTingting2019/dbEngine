@@ -7,6 +7,7 @@
 //
 
 #include "BinaryExpr.h"
+#include "sstream"
 std::string algebra::BinaryExpr::getType() {
     return this -> type;
 }
@@ -36,6 +37,16 @@ bool algebra::BinaryExpr::isSimple() {
     }
     return false;
 }
+
+std::string algebra::BinaryExpr::findName() {
+    return left -> findName() + " " + oper + " " + right -> findName();
+}
+
+//std::string algebra::BinaryExpr::toString() {
+  //  std::stringstream ss;
+    //ss << left -> toString() << " " << oper << " " << right -> toString();
+    //return ss.str();
+//}
 
 algebra::BinaryExpr::BinaryExpr(const std::shared_ptr<algebra::Expression>& left, const std::string& oper, const std::shared_ptr<algebra::Expression>& right) : left(left), oper(oper), right(right) {}
 

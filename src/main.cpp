@@ -44,8 +44,16 @@ int main(int , const char **) {
             antlr4::CommonTokenStream tokens(&lexer);
             queryparser::QueryParser parser(&tokens);
             std::shared_ptr<algebra::AlgebraTree> algebraTree = std::make_shared<algebra::AlgebraTree>(parser.select_stmt());
-            QueryOptimizer optimizer(algebraTree);
-            std::shared_ptr<ProjIterator> projIterator_ptr = std::dynamic_pointer_cast<ProjIterator>(IteratorBuilder::build(optimizer.optimize()));
+            if (false) {
+                std::cout << "Before optimization:" << std::endl;
+                std::cout << algebraTree -> toString() << std::endl;
+                QueryOptimizer optimizer(algebraTree);
+                optimizer.optimize();
+                std::cout << "\n\nAfter optimization:" << std::endl;
+                std::cout << algebraTree -> toString() << std::endl;
+                std::cout << "\n\n";
+            }
+            std::shared_ptr<ProjIterator> projIterator_ptr = std::dynamic_pointer_cast<ProjIterator>(IteratorBuilder::build(algebraTree));
             if (projIterator_ptr) {
                 projIterator_ptr -> print();
             }

@@ -7,6 +7,9 @@
 //
 
 #include "Table.h"
+std::string algebra::Table::toString() {
+    return name;
+}
 
 algebra::Table::Table(const std::string& name) {
     this -> name = name;

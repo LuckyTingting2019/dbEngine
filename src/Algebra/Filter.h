@@ -28,6 +28,7 @@ namespace algebra {
         void setExpr(const std::shared_ptr<algebra::BoolBinaryExpr>& expr);
         
         bool evaluate(Row& row);
+        std::string toString();
         
         std::unordered_map<std::string, std::shared_ptr<algebra::Filter>> partition();
         
