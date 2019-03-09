@@ -44,7 +44,7 @@ int main(int , const char **) {
             antlr4::CommonTokenStream tokens(&lexer);
             queryparser::QueryParser parser(&tokens);
             std::shared_ptr<algebra::AlgebraTree> algebraTree = std::make_shared<algebra::AlgebraTree>(parser.select_stmt());
-            if (false) {
+            if (true) {
                 std::cout << "Before optimization:" << std::endl;
                 std::cout << algebraTree -> toString() << std::endl;
                 QueryOptimizer optimizer(algebraTree);

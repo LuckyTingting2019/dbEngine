@@ -351,7 +351,7 @@ std::string algebra::AlgebraTree::toString() {
     ss << proj_ptr -> toString();
     ss << "\nFROM ";
     if (relation_ptr -> getType() == "AlgebraTree") {
-        ss << "\n\t(" << relation_ptr -> toString() << ";)";
+        ss << "\n\n(" << relation_ptr -> toString() << ")\n";
     } else {
         ss << relation_ptr -> toString();
     }
